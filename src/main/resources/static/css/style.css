@@ -1,0 +1,20 @@
+.logout-button {
+    background: transparent;
+    border: none;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 1) !important;
+}
+
+.logout-button:hover {
+    cursor: pointer;
+}
+
+.logout-button:focus {
+    outline: none;
+}
+
+.error {
+    color: red;
+    font-family: "Harlow Solid Italic";
+}
+
