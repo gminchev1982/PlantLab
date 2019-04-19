@@ -2,7 +2,7 @@
     background: transparent;
     border: none;
     font-weight: bold;
-    color: rgba(0, 0, 0, 1) !important;
+    color: #DEB408!important;
 }
 
 .logout-button:hover {
@@ -16,5 +16,20 @@
 .error {
     color: red;
     font-family: "Harlow Solid Italic";
+}
+
+.logo-blue-color {
+    color: #5A91CC;
+}
+
+
+.bgr-navbar {
+    background: #262626!important;
+}
+
+footer {
+    background-color: #171717;
+    color:#8c8989;
+    font-size:13px;
 }
 

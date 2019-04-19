@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<header>
+    <th:block th:include="~{fragments/navbar}"></th:block>
+</header>
+
+<main class="container mt-3">
+    <div class="row w-75 mx-auto">
+       <div class="col-md-1">
+           <h1 class="text-left text-dark">Plants</h1>
+       </div>
+     <div class="col-md-11 text-right">
+            <button type="button" class="btn btn-primary text-right" data-toggle="modal" data-target="#myModal">
+                New
+            </button>
+     </div>
+    </div>
+
+    <table class="table table-hover w-75 mx-auto">
+        <thead>
+        <tr class="row mx-auto">
+            <th class="col-md-2 text-center">#</th>
+            <th class="col-md-4 text-center">#</th>
+            <th class="col-md-5 text-center">Barcode</th>
+            <th class="col-md-1 text-center">&nbsp;- </th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="plant, iter : ${plantAll}">
+            <tr class="row mx-auto">
+                <th class="col-md-2 text-center" th:text="${iter.index + 1}"></th>
+                <td class="col-md-4 text-center" th:text="${plant.dateAt}"></td>
+                <td class="col-md-5 text-center" th:text="${plant.barcode}"></td>
+                <td class="col-md-1 text-center"><a href="#"><i class="fas fa-user-edit logo-blue-color "></i></td>
+            </tr>
+        </th:block>
+
+
+        </tbody>
+    </table>
+
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">New Plant</h4>
+                    <button type="button" class="close close-plant" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="alert text-hide">
+
+                    </div>
+
+                    <form class="form w-100 mx-auto" th:action="@{/plants/new}" th:method="post"  id="form-plant">
+
+                        <div class="form-group">
+                            <label for="barcode" class="font-weight-bold">Barcode</label>
+                            <input type="text" class="form-control" id="barcode" placeholder="barcode..." name="barcode" required maxlength="20">
+                        </div>
+
+                        <div class="button-holder">
+                            <button type="submit" class="btn btn-dark">Save</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger close-plant"  data-dismiss="modal" >Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="/js/http.js"></script>
+<script>
+    $("#form-plant").on('submit', (ev) => {
+        ev.preventDefault();
+        const data = {
+            barcode: $("input[name=barcode]").val()
+        };
+        http.post("/api/plants/save", data)
+        .then((data) => {
+            console.log('data',data)
+            if (data.flag===false) {
+                    $('.alert').html(data.message);
+                    $('.alert').removeClass('text-hide');
+                    $('.alert').removeClass('alert-success');
+                    $('.alert').addClass('alert-danger').show();
+
+            }else {
+
+                $('.alert').html(data.message);
+                $('.alert').removeClass('text-hide');
+                $('.alert').removeClass('alert-danger');
+                $('.alert').addClass('alert-success');
+                $("input[name=barcode]").val('')
+            }
+
+
+
+    });
+    return false;
+    });
+
+    $("#close-plant").on('click',(ev)=>{
+        $("input[name=barcode]").val();
+        window.location.reload();
+
+        }
+    );
+
+</script>
+
+</main>
+<footer>
+    <th:block th:include="~{fragments/footer}"></th:block>
+</footer>
+</body>
+</html>

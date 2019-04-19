@@ -1,5 +1,6 @@
-package com.minchev.plantlab.controllers;
+package com.minchev.plantlab.controllers.web;
 
+import com.minchev.plantlab.controllers.BaseController;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,5 +14,14 @@ public class HomeController extends BaseController {
     public ModelAndView index() {
         return view("index");
     }
+
+
+    @GetMapping("/home")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView home() {
+        return view("home");
+    }
+
+
 
 }

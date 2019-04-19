@@ -9,11 +9,22 @@ import java.util.Set;
 @Table(name = "users")
 public class UserEntity extends BaseEntity implements UserDetails {
 
+    private String name;
     private String username;
     private String password;
+    private String role;
     private Set<RoleEntity> authorities;
 
     public UserEntity() {
+    }
+
+    @Column(name = "name", nullable = false, unique = false, updatable = true)
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -34,6 +45,14 @@ public class UserEntity extends BaseEntity implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override

@@ -9,9 +9,9 @@
     <th:block th:include="~{fragments/navbar}"></th:block>
 </header>
 <main class="mt-3">
-    <h1 class="text-center text-dark">Register</h1>
+    <h1 class="text-center text-dark">Edit</h1>
     <hr class="hr-2 bg-dark w-25">
-    <form class="form w-25 mx-auto" th:action="@{/users/register}" th:method="post" th:object="${model}">
+    <form class="form w-25 mx-auto" th:action="@{/users/edit/{id}(id=${id})}" th:method="post" th:object="${model}">
 
 
         <div class="form-group">
@@ -24,7 +24,7 @@
 
         <div class="form-group">
             <label for="username" class="font-weight-bold">Username</label>
-            <input type="email" class="form-control" id="username" placeholder="Username..." name="username"
+            <input th:disabled="true" type="email" class="form-control" id="username" placeholder="Username..." name="username"
                    th:value="*{username}">
             <th:block th:if="${#fields.hasErrors('username')}">
                 <small class="error" th:errors="*{username}"></small>
@@ -53,7 +53,7 @@
 
                 <option th:value="null">------------</option>
 
-                <option th:each="type : ${roles}" th:value="${type.id}" th:text="${type.authority}" th:selected="${model.role==type.id}"></option>
+                <option th:each="type : ${roles}" th:value="${type.id}" th:text="${#strings.substringAfter(type.authority,'role_')}" th:selected="${model.role==type.id}"></option>
             </select>
 
             <th:block th:if="${#fields.hasErrors('role')}">
@@ -63,7 +63,7 @@
 
         <hr class="hr-2 bg-dark">
         <div class="button-holder d-flex justify-content-center">
-            <button type="submit" class="btn btn-dark">Register</button>
+            <button type="submit" class="btn btn-dark">Edit</button>
         </div>
     </form>
 </main>

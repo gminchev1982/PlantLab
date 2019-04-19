@@ -1,13 +1,16 @@
-package com.minchev.plantlab.models.forms;
+package com.minchev.plantlab.models.service;
 
-public class UserRegisterForm {
+import java.util.Set;
+
+public class UserServiceModel extends BaseServiceModel {
+
     private String name;
     private String username;
     private String password;
-    private String confirmPassword;
     private String role;
+    private Set<RoleServiceModel> authorities;
 
-    public UserRegisterForm() {
+    public UserServiceModel() {
     }
 
     public String getName() {
@@ -34,19 +37,19 @@ public class UserRegisterForm {
         this.password = password;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
     public String getRole() {
         return role;
     }
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Set<RoleServiceModel> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<RoleServiceModel> authorities) {
+        this.authorities = authorities;
     }
 }

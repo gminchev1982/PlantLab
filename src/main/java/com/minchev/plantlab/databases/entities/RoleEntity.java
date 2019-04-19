@@ -10,13 +10,14 @@ import javax.persistence.Table;
 public class RoleEntity extends BaseEntity implements GrantedAuthority {
 
     private String authority;
-
-    public RoleEntity() {
+       public RoleEntity() {
     }
 
     public RoleEntity(String authority) {
         this.authority = authority;
+
     }
+
 
     @Override
     public String getAuthority() {
@@ -26,4 +27,6 @@ public class RoleEntity extends BaseEntity implements GrantedAuthority {
     public void setAuthority(String authority) {
         this.authority = authority;
     }
+
+
 }
