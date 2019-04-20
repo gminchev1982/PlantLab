@@ -33,3 +33,22 @@ footer {
     font-size:13px;
 }
 
+
+.btn-primary {
+    background:#5586BC;
+}
+
+a {
+    color:#5586BC;
+}
+
+a.active {
+    color: #DEB408;
+}
+
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #DEB408;
+    border-color: #DEB408;
+}

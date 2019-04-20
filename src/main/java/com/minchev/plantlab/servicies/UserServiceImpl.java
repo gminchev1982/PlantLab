@@ -61,10 +61,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserServiceModel editUserProfile(UserServiceModel userServiceModel) {
-        UserEntity user = this.userRepository.findByUsername(userServiceModel.getUsername())
-                .orElseThrow(()-> new UsernameNotFoundException("Username not found!"));
-        user.setName(userServiceModel.getName());
-        user.setRole(userServiceModel.getRole());
+            UserEntity user = this.userRepository.findByUsername(userServiceModel.getUsername())
+                    .orElseThrow(()-> new UsernameNotFoundException("Username not found!"));
+            user.setName(userServiceModel.getName());
+            user.setRole(userServiceModel.getRole());
         user.setPassword(userServiceModel.getPassword() != null || !userServiceModel.getPassword().isEmpty()  ?
                 this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()) :
                 user.getPassword());

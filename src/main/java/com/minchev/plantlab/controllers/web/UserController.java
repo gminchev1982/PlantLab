@@ -2,7 +2,6 @@ package com.minchev.plantlab.controllers.web;
 
 
 
-import com.minchev.plantlab.controllers.BaseController;
 import com.minchev.plantlab.models.forms.UserRegisterForm;
 import com.minchev.plantlab.models.service.UserServiceModel;
 import com.minchev.plantlab.models.view.UserAllViewModel;
@@ -20,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller

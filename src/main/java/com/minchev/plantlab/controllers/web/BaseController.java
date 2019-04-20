@@ -1,4 +1,4 @@
-package com.minchev.plantlab.controllers;
+package com.minchev.plantlab.controllers.web;
 
 import org.springframework.web.servlet.ModelAndView;
 

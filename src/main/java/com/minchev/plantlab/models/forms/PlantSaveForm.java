@@ -1,7 +1,7 @@
 package com.minchev.plantlab.models.forms;
 
 public class PlantSaveForm {
-    private String _ct;
+
     private String barcode;
 
 

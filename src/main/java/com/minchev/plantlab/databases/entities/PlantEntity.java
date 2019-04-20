@@ -19,7 +19,7 @@ public class PlantEntity extends BaseEntity {
     public PlantEntity() {
     }
 
-    @Column(name = "barcode", nullable = false, unique = true, updatable = true, length = 20)
+    @Column(name = "barcode", nullable = false, unique = false, updatable = true, length = 20)
     public String getBarcode() {
         return barcode;
     }
