@@ -1,4 +1,4 @@
-package com.minchev.plantlab.validations;
+package com.minchev.plantlab.validations.forms;
 
 import com.minchev.plantlab.databases.repositories.PlantRepository;
 import com.minchev.plantlab.databases.repositories.ProductRepository;

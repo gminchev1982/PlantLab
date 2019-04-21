@@ -5,13 +5,12 @@ import com.minchev.plantlab.databases.repositories.PlantRepository;
 import com.minchev.plantlab.errors.PlantNotFoundException;
 import com.minchev.plantlab.models.service.PlantServiceEditModel;
 import com.minchev.plantlab.models.service.PlantServiceModel;
-import com.minchev.plantlab.models.service.UserServiceModel;
+import com.minchev.plantlab.models.view.PlantLabViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.awt.print.Pageable;
@@ -76,6 +75,16 @@ public class PlantServiceImpl implements PlantService {
                 .map(u -> this.modelMapper.map(u, PlantServiceModel.class))
                 .collect(Collectors.toList())
         ;
+    }
+
+    @Override
+    public List<PlantLabViewModel> findAllPlantsActive() {
+
+        return this.plantRepository.findAll()
+                .stream()
+                .filter(f->f.isActive()==true)
+                .map(u -> this.modelMapper.map(u, PlantLabViewModel.class))
+                .collect(Collectors.toList());
     }
 
     private List<Integer> setPagingNumber(Integer totalPages) {

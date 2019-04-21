@@ -4,10 +4,9 @@ import com.minchev.plantlab.models.forms.PlantEditForm;
 import com.minchev.plantlab.models.forms.PlantSaveForm;
 import com.minchev.plantlab.models.service.PlantServiceEditModel;
 import com.minchev.plantlab.models.service.PlantServiceModel;
-import com.minchev.plantlab.models.service.ProductServiceModel;
 import com.minchev.plantlab.servicies.PlantService;
-import com.minchev.plantlab.validations.PlantEditValidator;
-import com.minchev.plantlab.validations.PlantSaveValidator;
+import com.minchev.plantlab.validations.forms.PlantEditValidator;
+import com.minchev.plantlab.validations.forms.PlantSaveValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +25,9 @@ public class PlantApiController {
     private final PlantEditValidator plantEditValidator;
 
     public PlantApiController(PlantSaveValidator plantSaveValidator,
-                              PlantEditValidator plantEditValidator,
-                              PlantService plantService,
-                              ModelMapper modelMapper) {
+                                PlantEditValidator plantEditValidator,
+                                PlantService plantService,
+                                ModelMapper modelMapper) {
         this.plantSaveValidator = plantSaveValidator;
         this.plantService = plantService;
         this.modelMapper = modelMapper;

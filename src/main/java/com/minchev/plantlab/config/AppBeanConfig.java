@@ -16,7 +16,7 @@ public class AppBeanConfig {
 
     static {
         mapper = new ModelMapper();
-       // MappingsInitializer.initMappings(mapper);
+        MappingsInitializer.initMappings(mapper);
     }
 
     @Bean

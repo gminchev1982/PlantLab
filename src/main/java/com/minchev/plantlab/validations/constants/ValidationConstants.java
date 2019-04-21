@@ -24,5 +24,5 @@ public class ValidationConstants {
     public final static String[] BARCODE_DONE = {"Barcode  saved successfully!!"}   ;
     public final static String[] PRODUCT_DONE = {"Product saved successfully!!"};
 
-    
+    public final static String NOT_EXIST =  "%s not exists!";
 }

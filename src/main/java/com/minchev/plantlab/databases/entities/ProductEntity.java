@@ -10,11 +10,9 @@ import java.util.Date;
 @Entity
 @Table(name = "products")
 public class ProductEntity  extends  BaseEntity{
-    @NonNull
+
     private String name;
-    @NonNull
     private boolean active;
-    @NonNull
     private Date createdAt;
     @PrePersist
     private void initializeCreatedAt() {
@@ -26,7 +24,7 @@ public class ProductEntity  extends  BaseEntity{
 
     public ProductEntity() {
     }
-
+    @NonNull
     public String getName() {
         return name;
     }
@@ -34,7 +32,7 @@ public class ProductEntity  extends  BaseEntity{
     public void setName(String name) {
         this.name = name;
     }
-
+    @NonNull
     public boolean isActive() {
         return active;
     }

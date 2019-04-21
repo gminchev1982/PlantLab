@@ -14,6 +14,7 @@ import java.util.Optional;
 public interface PlantRepository extends JpaRepository<PlantEntity,String> {
     Optional<PlantEntity> findByBarcode(String barcode);
     Optional<PlantEntity> findById(String id);
+    Optional<PlantEntity> findByActive(Boolean active);
     @Override
     Page<PlantEntity> findAll(Pageable pageable);
 

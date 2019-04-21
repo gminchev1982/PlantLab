@@ -197,6 +197,7 @@
             $('#myModalEdit').modal('show');
 
             http.get("/api/plants/" + id).then((data) => {
+                const response = data.json();
                 if (data.status === 200) {
                     response.then(resp => {
                         $("input[name=barcodeold]").val(resp.barcode);

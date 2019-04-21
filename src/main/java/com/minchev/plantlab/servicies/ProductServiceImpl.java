@@ -5,6 +5,7 @@ import com.minchev.plantlab.databases.repositories.ProductRepository;
 import com.minchev.plantlab.errors.ProductNotFoundException;
 import com.minchev.plantlab.models.service.ProductServiceEditModel;
 import com.minchev.plantlab.models.service.ProductServiceModel;
+import com.minchev.plantlab.models.view.ProductLabViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -75,6 +76,15 @@ public class ProductServiceImpl  implements ProductService{
                 .map(u -> this.modelMapper.map(u, ProductServiceModel.class))
                 .collect(Collectors.toList())
                 ;
+    }
+
+    @Override
+    public List<ProductLabViewModel> findAllProductActive() {
+        return this.productRepository.findAll()
+                .stream()
+                .filter(f->f.isActive()==true)
+                .map(u -> this.modelMapper.map(u, ProductLabViewModel.class))
+                .collect(Collectors.toList());
     }
 
     private List<Integer> setPagingNumber(Integer totalPages) {

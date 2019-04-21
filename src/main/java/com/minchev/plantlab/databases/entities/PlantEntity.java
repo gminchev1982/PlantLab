@@ -2,6 +2,7 @@ package com.minchev.plantlab.databases.entities;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "plants")
@@ -44,4 +45,6 @@ public class PlantEntity extends BaseEntity {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+
+
 }
