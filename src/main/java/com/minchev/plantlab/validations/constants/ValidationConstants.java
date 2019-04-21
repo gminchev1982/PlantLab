@@ -21,6 +21,8 @@ public class ValidationConstants {
     public final static String BARCODE_LENGTH = "Please enter Barcode within 20 charaters only!";
     public final static String BARCODE_EXIST = "Barcode already exists!";
 
-    public final static String BARCODE_DONE = "Barcode  saved successfully!!";
+    public final static String[] BARCODE_DONE = {"Barcode  saved successfully!!"}   ;
+    public final static String[] PRODUCT_DONE = {"Product saved successfully!!"};
 
+    
 }

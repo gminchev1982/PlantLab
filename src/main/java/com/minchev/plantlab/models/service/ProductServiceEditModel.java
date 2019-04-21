@@ -1,33 +1,28 @@
 package com.minchev.plantlab.models.service;
 
-import org.springframework.stereotype.Component;
-
-
-public class PlantServiceEditModel extends BaseServiceModel {
+public class ProductServiceEditModel {
     private String id;
-    private String barcode;
+    private String name;
     private boolean active;
 
-    public PlantServiceEditModel() {
+    public ProductServiceEditModel() {
     }
 
-    @Override
     public String getId() {
         return id;
     }
 
-    @Override
     public void setId(String id) {
         this.id = id;
     }
 
-    public String getBarcode() {
-        return barcode;
+    public String getName() {
+        return name;
     }
 
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
-    }
+    public void setName(String name) {
+        this.name = name;
+     }
 
     public boolean isActive() {
         return active;

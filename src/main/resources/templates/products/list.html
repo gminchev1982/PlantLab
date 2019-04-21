@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<header>
+    <th:block th:include="~{fragments/navbar}"></th:block>
+</header>
+
+<main class="container mt-3">
+    <div class="row w-75 mx-auto">
+        <div class="col-md-1">
+            <h1 class="text-left text-dark">Products</h1>
+        </div>
+        <div class="col-md-11 text-right">
+            <button type="button" class="btn btn-primary text-right product-new" data-toggle="modal"
+                    data-target="#myModal">
+                New
+            </button>
+        </div>
+
+
+        <table class="table  w-75 mx-auto">
+            <thead>
+            <tr class="row mx-auto">
+                <th class="col-md-2 text-center th-sm">#</th>
+                <th class="col-md-4 text-center th-sm">#</th>
+                <th class="col-md-5 text-center">Name <a th:href="@{/products(sort='name,desc')}"
+                                                         th:class="${#strings.equals(sort, 'name,desc')? 'active':''}"><i
+                        class="fas fa-angle-up" style="font-size: 1.4rem;"></i></a><a
+                        th:href="@{/products(sort='name,asc')}"
+                        th:class="${#strings.equals(sort, 'name,asc')? 'active':''}"><i class="fas fa-angle-down"
+                                                                                        style="font-size: 1.4rem;"></i></a>
+                </th>
+                <th class="col-md-1 text-center">&nbsp;-</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="product, iter : ${products}">
+                <tr class="row mx-auto">
+                    <td class="col-md-2 text-center" th:text="${page>1}? ${iter.count}+ ${page} : ${iter.count}"></td>
+                    <td class="col-md-4 text-center" th:text="${product.dateAt}"></td>
+                    <td class="col-md-5 text-center" th:text="${product.name}"></td>
+                    <td class="col-md-1 text-center"><a href="#"><i class="fas fa-user-edit logo-blue-color"
+                                                                    th:attr="pr-id=${product.id}"></i></td>
+                </tr>
+            </th:block>
+            <!--<tr th:if="${products.empty}">
+                <td colspan="2"> List is empty!</td>
+            </tr>-->
+
+
+            <tr class="row mx-auto">
+                <td class="col-md-12 text-center" th:if="${pageNumbers}">
+                    <nav aria-label="Page navigation example w-75 mx-auto">
+                        <ul class="pagination">
+                            <li th:each="pageNumber : ${pageNumbers}"
+                                th:class="(${pageNumber==page} ? 'page-item active':'page-item')"><a class="page-link"
+                                                                                                     th:href="@{/products(page=${pageNumber},sort=${sort})}"
+                                                                                                     th:text=${pageNumber}></a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div th:insert="products/forms"></div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger close-plant" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="/js/http.js"></script>
+    <script>
+
+        $(".product-new").on('click', (ev) => {
+
+            $("input[name=name]").val('')
+            $('.alert').addClass('d-none');
+            $('.open-edit-form ').addClass('d-none');
+            $('.open-new-form').removeClass('d-none');
+        })
+
+
+        $(".fa-user-edit").on('click', (ev) => {
+            const id = $(ev.target).attr("pr-id");
+            $('.open-edit-form').removeClass('d-none');
+            $('.open-new-form').addClass('d-none');
+            $('#myModal').modal('show');
+
+            http.get("/api/products/" + id).then((data) => {
+                const response = data.json();
+                if (data.status === 200) {
+                    response.then(resp => {
+                        $("input[name=nameold]").val(resp.name);
+                        $("input[name=name]").val(resp.name);
+                        $("input[name=id]").val(resp.id);
+                        $("select[name=active]").val(resp.active);
+                    });
+                }
+            });
+        })
+
+
+        $("#form-product").on('submit', (ev) => {
+            ev.preventDefault();
+            const data = {
+                name: $("input[name=name]").val()
+            };
+            http.post("/api/products/save", data)
+                .then((data) => {
+                    const response = data.json();
+                    if (data.status === 400) {
+
+                        response.then(resp => {
+                            $('.alert').html(resp[0].code);
+                            $('.alert').removeClass('d-none');
+                            $('.alert').removeClass('alert-success');
+                            $('.alert').addClass('alert-danger').show();
+
+                        });
+
+                    } else {
+
+                        response.then(resp => {
+                            console.log(resp);
+                            $('.alert').html(resp);
+                            $('.alert').removeClass('d-none');
+                            $('.alert').removeClass('alert-danger');
+                            $('.alert').addClass('alert-success');
+                            $("input[name=name]").val('')
+
+                        });
+
+
+                    }
+                });
+            return false;
+        });
+
+
+        $("#form-product-edit").on('submit', (ev) => {
+
+            const form = $("#form-product-edit").serializeArray();
+            let data = {};
+            $(form).each(function (index, obj) {
+                data[obj.name] = obj.value;
+            });
+
+
+            http.post("/api/products/edit", data)
+                .then((data) => {
+                    console.log('data', data)
+                    const response = data.json();
+
+                    if (data.status === 400) {
+
+                        response.then(resp => {
+                            $('.alert').html(data.message);
+                            $('.alert').removeClass('d-none');
+                            $('.alert').removeClass('alert-success');
+                            $('.alert').addClass('alert-danger').show();
+                        });
+
+                    } else {
+                        response.then(resp => {
+                            $('.alert').html(data.message);
+                            $('.alert').removeClass('d-none');
+                            $('.alert').removeClass('alert-danger');
+                            $('.alert').addClass('alert-success');
+                        });
+                    }
+                });
+            ev.preventDefault();
+            return false;
+        });
+
+        $(".close-plant").on('click',(ev)=>{
+                $("input[name=name]").val();
+                window.location.reload();
+            }
+        );
+
+    </script>
+</main>
+<footer>
+    <th:block th:include="~{fragments/footer}"></th:block>
+</footer>
+</body>
+</html>
+

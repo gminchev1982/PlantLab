@@ -26,13 +26,10 @@ public class PlantController extends BaseController {
     public ModelAndView homePlant(ModelAndView modelAndView,
                                   @RequestParam(value = "page", defaultValue = "1") int page,
                                   @RequestParam(value = "sort", defaultValue = "createdAt,desc") String sort,
-                                  @RequestParam(value = "search", defaultValue = "") String search
-    ){
+                                  @RequestParam(value = "search", defaultValue = "") String search){
 
 
-        List<PlantServiceModel> plantsAll = this.plantService.findAllPlants(page, sort, search);
-
-        modelAndView.addObject("plantAll", plantsAll);
+        modelAndView.addObject("plantAll", this.plantService.findAllPlants(page, sort, search));
         modelAndView.addObject("pageNumbers", this.plantService.getPagingNumber());
         modelAndView.addObject("page", page);
         modelAndView.addObject("sort", sort);

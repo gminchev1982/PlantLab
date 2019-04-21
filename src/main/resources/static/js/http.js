@@ -28,7 +28,7 @@ const http = (function () {
         }
         console.log("payload", payload)
         return fetch(url, payload)
-            .then(response => response.json()).catch(er=> console.log("err", er));
+            .then(response => response).catch(er=> console.log("err", er));
     };
     const post = (url, body) => send(url, 'POST', body);
     const get = (url) => send(url, 'GET', null);

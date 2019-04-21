@@ -55,6 +55,8 @@ public class PlantServiceImpl implements PlantService {
 
     @Override
     public List<PlantServiceModel> findAllPlants(Integer page, String sort, String search) {
+
+        //de se popravi
         Integer limit = 2;
         if (page-1<0) page =0; else page= page-1;
         String[]  sortType = sort.split(",");

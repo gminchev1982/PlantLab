@@ -11,37 +11,44 @@
 
 <main class="container mt-3">
     <div class="row w-75 mx-auto">
-       <div class="col-md-1">
-           <h1 class="text-left text-dark">Plants</h1>
-       </div>
-     <div class="col-md-11 text-right">
-            <button type="button" class="btn btn-primary text-right plant-new" data-toggle="modal" data-target="#myModal">
+        <div class="col-md-1">
+            <h1 class="text-left text-dark">Plants</h1>
+        </div>
+        <div class="col-md-11 text-right">
+            <button type="button" class="btn btn-primary text-right plant-new" data-toggle="modal"
+                    data-target="#myModal">
                 New
             </button>
-     </div>
+        </div>
     </div>
 
 
-    <div class="row w-75 mx-auto">
-        <!--<div class="col-md-12 text-right">
-            <form th:action="@{/plants/all}" th:method="get">
-                <div class="input-group  mb-3">
-                    <input type="text" class="form-control w-25" id="search" placeholder="Search ..." name="search" required maxlength="20">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="submit">Button</button>
+    <!--    <div class="row w-75 mx-auto">
+            <div class="col-md-12 text-right">
+                <form th:action="@{/plants/all}" th:method="get">
+                    <div class="input-group  mb-3">
+                        <input type="text" class="form-control w-25" id="search" placeholder="Search ..." name="search" required maxlength="20">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit">Button</button>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </div>-->
-    </div>
+                </form>
+            </div>
+    </div>-->
 
     <table class="table  w-75 mx-auto">
         <thead>
         <tr class="row mx-auto">
             <th class="col-md-2 text-center th-sm">#</th>
             <th class="col-md-4 text-center th-sm">#</th>
-            <th class="col-md-5 text-center">Barcode <a th:href="@{/plants/all(sort='barcode,desc')}" th:class="${#strings.equals(sort, 'barcode,desc')? 'active':''}"><i class="fas fa-angle-up"  style="font-size: 1.4rem;"></i></a><a th:href="@{/plants/all(sort='barcode,asc')}" th:class="${#strings.equals(sort, 'barcode,asc')? 'active':''}"><i class="fas fa-angle-down" style="font-size: 1.4rem;"></i></a></th>
-            <th class="col-md-1 text-center">&nbsp;- </th>
+            <th class="col-md-5 text-center">Barcode <a th:href="@{/plants/all(sort='barcode,desc')}"
+                                                        th:class="${#strings.equals(sort, 'barcode,desc')? 'active':''}"><i
+                    class="fas fa-angle-up" style="font-size: 1.4rem;"></i></a><a
+                    th:href="@{/plants/all(sort='barcode,asc')}"
+                    th:class="${#strings.equals(sort, 'barcode,asc')? 'active':''}"><i class="fas fa-angle-down"
+                                                                                       style="font-size: 1.4rem;"></i></a>
+            </th>
+            <th class="col-md-1 text-center">&nbsp;-</th>
         </tr>
         </thead>
         <tbody>
@@ -50,27 +57,32 @@
                 <td class="col-md-2 text-center" th:text="${page>1}? ${iter.count}+ ${page} : ${iter.count}"></td>
                 <td class="col-md-4 text-center" th:text="${plant.dateAt}"></td>
                 <td class="col-md-5 text-center" th:text="${plant.barcode}"></td>
-                <td class="col-md-1 text-center"><a href="#"><i class="fas fa-user-edit logo-blue-color"  th:attr="pl-id=${plant.id}"></i></td>
+                <td class="col-md-1 text-center"><a href="#"><i class="fas fa-user-edit logo-blue-color"
+                                                                th:attr="pl-id=${plant.id}"></i></td>
             </tr>
         </th:block>
         <tr th:if="${plantAll.empty}">
-            <td colspan="2"> No Plant Available </td>
+            <td colspan="2"> No Plant Available</td>
         </tr>
 
 
         <tr class="row mx-auto">
-        <td class="col-md-12 text-center" th:if="${pageNumbers!=null}">
-            <nav aria-label="Page navigation example w-75 mx-auto">
-            <ul class="pagination">
-                <li th:each="pageNumber : ${pageNumbers}" th:class="(${pageNumber==page} ? 'page-item active':'page-item')"><a class="page-link" th:href="@{/plants/all(page=${pageNumber})}" th:text=${pageNumber}></a></li>
-            </ul>
-            </nav>
+            <td class="col-md-12 text-center" th:if="${pageNumbers!=null}">
+                <nav aria-label="Page navigation example w-75 mx-auto">
+                    <ul class="pagination">
+                        <li th:each="pageNumber : ${pageNumbers}"
+                            th:class="(${pageNumber==page} ? 'page-item active':'page-item')">
+                            <a class="page-link" th:href="@{/plants/all(page=${pageNumber},sort=${sort})}"
+                               th:text=${pageNumber}></a>
+                        </li>
+                    </ul>
+                </nav>
 
-        </td>
+            </td>
 
         </tr>
 
-               </tbody>
+        </tbody>
     </table>
 
 
@@ -95,9 +107,9 @@
 
                         <div class="form-group">
                             <label for="barcode" class="font-weight-bold">Barcode</label>
-                            <input type="text" class="form-control" id="barcode" placeholder="barcode..." name="barcode" required maxlength="20">
+                            <input type="text" class="form-control" id="barcode" placeholder="barcode..." name="barcode"
+                                   required maxlength="20">
                         </div>
-
 
 
                         <div class="button-holder">
@@ -109,7 +121,7 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger close-plant"  data-dismiss="modal" >Close</button>
+                    <button type="button" class="btn btn-danger close-plant" data-dismiss="modal">Close</button>
                 </div>
 
             </div>
@@ -134,16 +146,18 @@
 
                     </div>
 
-                    <form class="form w-100 mx-auto" th:action="@{/plants/new}" th:method="post"  id="form-plant-edit">
+                    <form class="form w-100 mx-auto" th:action="@{/plants/new}" th:method="post" id="form-plant-edit">
 
                         <div class="form-group">
                             <label for="barcode" class="font-weight-bold">Barcode</label>
-                            <input type="text" class="form-control" id="barcode" placeholder="barcode..." name="barcode" required maxlength="20">
+                            <input type="text" class="form-control" id="barcode" placeholder="barcode..." name="barcode"
+                                   required maxlength="20">
                         </div>
 
                         <div class="form-group edit-field">
-                            <input type="hidden" class="form-control" id="barcoderold"  name="barcodeold" required maxlength="20">
-                            <input type="hidden" class="form-control" id="id"  name="id" >
+                            <input type="hidden" class="form-control" id="barcoderold" name="barcodeold" required
+                                   maxlength="20">
+                            <input type="hidden" class="form-control" id="id" name="id">
                             <label for="active" class="font-weight-bold">Status</label>
                             <select name="active" id="active">
                                 <option value="true">Active</option>
@@ -160,7 +174,7 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger close-plant"  data-dismiss="modal" >Close</button>
+                    <button type="button" class="btn btn-danger close-plant" data-dismiss="modal">Close</button>
                 </div>
 
             </div>
@@ -168,101 +182,103 @@
     </div>
 
 
-
-
     <script src="/js/http.js"></script>
-<script>
+    <script>
 
-    $(".plant-new").on('click', (ev)=>{
+        $(".plant-new").on('click', (ev) => {
 
-        $("input[name=barcode]").val('')
-        $('.alert').addClass('d-none');
+            $("input[name=barcode]").val('')
+            $('.alert').addClass('d-none');
 
-    })
+        })
 
-    $(".fa-user-edit").on('click', (ev)=>{
-        const id = $(ev.target).attr("pl-id");
-        $('#myModalEdit').modal('show');
+        $(".fa-user-edit").on('click', (ev) => {
+            const id = $(ev.target).attr("pl-id");
+            $('#myModalEdit').modal('show');
 
-        http.get("/api/plants/"+id).then((data)=>{
-            if (data.flag===true) {
-                $("input[name=barcodeold]").val(data.result.barcode);
-                $("input[name=barcode]").val(data.result.barcode);
-                $("input[name=id]").val(data.result.id);
-                $("select[name=active]").val(data.result.active);
-            }
-        });
-    })
-
-    $("#form-plant").on('submit', (ev) => {
-        ev.preventDefault();
-        const data = {
-            barcode: $("input[name=barcode]").val()
-        };
-        http.post("/api/plants/save", data)
-        .then((data) => {
-            console.log('data',data)
-            if (data.flag===false) {
-                    $('.alert').html(data.message);
-                    $('.alert').removeClass('d-none');
-                    $('.alert').removeClass('alert-success');
-                    $('.alert').addClass('alert-danger').show();
-
-            }else {
-
-                $('.alert').html(data.message);
-                $('.alert').removeClass('d-none');
-                $('.alert').removeClass('alert-danger');
-                $('.alert').addClass('alert-success');
-                $("input[name=barcode]").val('')
-            }
-
-
-
-    });
-    return false;
-    });
-
-    $("#form-plant-edit").on('submit', (ev) => {
-
-        const form = $("#form-plant-edit" ).serializeArray();
-        let data = {};
-        $(form).each(function(index, obj){
-            data[obj.name] = obj.value;
-        });
-
-
-        http.post("/api/plants/edit", data)
-            .then((data) => {
-                console.log('data',data)
-                if ((data.flag===false && !data.status) || data.status==404) {
-                    $('.alert').html(data.message);
-                    $('.alert').removeClass('d-none');
-                    $('.alert').removeClass('alert-success');
-                    $('.alert').addClass('alert-danger').show();
-                }else {
-                    $('.alert').html(data.message);
-                    $('.alert').removeClass('d-none');
-                    $('.alert').removeClass('alert-danger');
-                    $('.alert').addClass('alert-success');
+            http.get("/api/plants/" + id).then((data) => {
+                if (data.status === 200) {
+                    response.then(resp => {
+                        $("input[name=barcodeold]").val(resp.barcode);
+                        $("input[name=barcode]").val(resp.barcode);
+                        $("input[name=id]").val(resp.id);
+                        $("select[name=active]").val(resp.active);
+                    });
                 }
             });
-        ev.preventDefault();
-        return false;
-    });
+        })
+
+        $("#form-plant").on('submit', (ev) => {
+            ev.preventDefault();
+            const data = {
+                barcode: $("input[name=barcode]").val()
+            };
+            http.post("/api/plants/save", data)
+                .then((data) => {
+                    const response = data.json();
+                    console.log("response", response);
+                    if (data.status === 400) {
+                        response.then(resp => {
+                            $('.alert').html(resp[0].code);
+                            $('.alert').removeClass('d-none');
+                            $('.alert').removeClass('alert-success');
+                            $('.alert').addClass('alert-danger').show();
+                        });
+                    } else {
+                        response.then(resp => {
+                            $('.alert').html(resp);
+                            $('.alert').removeClass('d-none');
+                            $('.alert').removeClass('alert-danger');
+                            $('.alert').addClass('alert-success');
+                            $("input[name=barcode]").val('')
+                        });
+                    }
+                });
+            return false;
+        });
+
+        $("#form-plant-edit").on('submit', (ev) => {
+
+            const form = $("#form-plant-edit").serializeArray();
+            let data = {};
+            $(form).each(function (index, obj) {
+                data[obj.name] = obj.value;
+            });
 
 
+            http.post("/api/plants/edit", data)
+                .then((data) => {
+                    const response = data.json();
+                    if (data.status === 400) {
+                        response.then(resp => {
+                            $('.alert').html(resp[0].code);
+                            $('.alert').removeClass('d-none');
+                            $('.alert').removeClass('alert-success');
+                            $('.alert').addClass('alert-danger').show();
+                        });
+                    } else {
+                        response.then(resp => {
+                            $('.alert').html(resp);
+                            $('.alert').removeClass('d-none');
+                            $('.alert').removeClass('alert-danger');
+                            $('.alert').addClass('alert-success');
+                        })
+                    }
+                });
+            ev.preventDefault();
+            return false;
+        });
 
-    $(".close-plant").on('click',(ev)=>{
-        $("input[name=barcode]").val();
-         window.location.reload();
 
-        }
-    );
+        $(".close-plant").on('click', (ev) => {
+                $("input[name=barcode]").val();
+                window.location.reload();
+
+            }
+        );
 
 
-
-</script>
+    </script>
 
 </main>
 <footer>

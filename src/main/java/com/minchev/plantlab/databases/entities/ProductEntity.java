@@ -1,32 +1,38 @@
 package com.minchev.plantlab.databases.entities;
 
+
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.lang.NonNull;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "plants")
-public class PlantEntity extends BaseEntity {
-
-    private String barcode;
+@Table(name = "products")
+public class ProductEntity  extends  BaseEntity{
+    @NonNull
+    private String name;
+    @NonNull
     private boolean active;
+    @NonNull
     private Date createdAt;
-
     @PrePersist
     private void initializeCreatedAt() {
         this.createdAt = new Date();
         this.active = true;
 
-    }
-    public PlantEntity() {
+
     }
 
-    @Column(name = "barcode", nullable = false, unique = false, updatable = true, length = 20)
-    public String getBarcode() {
-        return barcode;
+    public ProductEntity() {
     }
 
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isActive() {
