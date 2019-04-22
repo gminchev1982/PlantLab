@@ -1,5 +1,6 @@
 package com.minchev.plantlab.controllers.web;
 
+import com.minchev.plantlab.interceptors.PageTitle;
 import com.minchev.plantlab.models.service.PlantServiceModel;
 import com.minchev.plantlab.models.service.ProductServiceModel;
 import com.minchev.plantlab.servicies.ProductService;
@@ -22,6 +23,7 @@ public class ProductController extends  BaseController {
 
     @GetMapping("/products")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Products")
     public ModelAndView productPage(ModelAndView modelAndView,
                                     @RequestParam(value = "page", defaultValue = "1") int page,
                                     @RequestParam(value = "sort", defaultValue = "createdAt,desc") String sort) {

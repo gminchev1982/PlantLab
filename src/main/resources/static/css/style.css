@@ -52,3 +52,19 @@ a.active {
     background-color: #DEB408;
     border-color: #DEB408;
 }
+
+
+.color-green {
+    color: #6FB943;
+}
+
+.color-red {
+    color: red;
+}
+
+.color-yellow {
+    color: #DEB408;
+}
+.color-blue {
+    color:#5586BC;
+}

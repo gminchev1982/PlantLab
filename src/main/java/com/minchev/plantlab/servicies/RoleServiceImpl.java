@@ -29,7 +29,7 @@ public class RoleServiceImpl implements RoleService {
     public void seedRolesInDb() {
         if (this.roleRepository.count() == 0) {
             this.roleRepository.saveAndFlush(new RoleEntity("role_user"));
-            this.roleRepository.saveAndFlush(new RoleEntity("role_moderator"));
+            this.roleRepository.saveAndFlush(new RoleEntity("role_manager"));
             this.roleRepository.saveAndFlush(new RoleEntity("role_admin"));
             this.roleRepository.saveAndFlush(new RoleEntity("role_root"));
         }

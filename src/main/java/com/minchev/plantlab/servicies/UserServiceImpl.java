@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,22 +22,26 @@ public class UserServiceImpl implements UserService {
     private final RoleService roleService;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    private final CloudinaryService cloudinaryService;
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleService roleService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository,
+                           RoleService roleService,
+                           ModelMapper modelMapper,
+                           BCryptPasswordEncoder bCryptPasswordEncoder,
+                           CloudinaryService cloudinaryService) {
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.cloudinaryService = cloudinaryService;
     }
 
     @Override
-    public UserServiceModel registerUser(UserServiceModel userServiceModel) {
+    public UserServiceModel registerUser(UserServiceModel userServiceModel)  throws IOException {
         this.roleService.seedRolesInDb();
         userServiceModel.setAuthorities(new LinkedHashSet<>());
         userServiceModel.getAuthorities().add(this.roleService.findById(userServiceModel.getRole()));
-
-
+        userServiceModel.setImage(this.cloudinaryService.uploadImage(userServiceModel.getImages()));
         //setUserRole(userServiceModel, userServiceModel.getRole());
 
         UserEntity user = this.modelMapper.map(userServiceModel, UserEntity.class);
@@ -60,22 +65,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserServiceModel editUserProfile(UserServiceModel userServiceModel) {
-            UserEntity user = this.userRepository.findByUsername(userServiceModel.getUsername())
-                    .orElseThrow(()-> new UsernameNotFoundException("Username not found!"));
-            user.setName(userServiceModel.getName());
-            user.setRole(userServiceModel.getRole());
+    public Boolean editUserProfile(UserServiceModel userServiceModel) {
+        UserEntity user = this.userRepository.findByUsername(userServiceModel.getUsername())
+                .orElseThrow(()-> new UsernameNotFoundException("Username not found!"));
+        /*user.setName(userServiceModel.getName());
+        user.setRole(userServiceModel.getRole());
         user.setPassword(userServiceModel.getPassword() != null || !userServiceModel.getPassword().isEmpty()  ?
                 this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()) :
-                user.getPassword());
+                user.getPassword());*/
         //user.setUsername(userServiceModel.getEmail());
+        userServiceModel.setId(user.getId());
+        if (userServiceModel.getPassword()!="" && userServiceModel.getPassword() != null || !userServiceModel.getPassword().isEmpty()){
+            userServiceModel.setPassword(this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
+        }else userServiceModel.setPassword(user.getPassword());
 
-        //setAuthotiries
         userServiceModel.setAuthorities(new LinkedHashSet<>());
         userServiceModel.getAuthorities().add(this.roleService.findById(userServiceModel.getRole()));
 
-        return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
+
+           try {
+               this.userRepository.saveAndFlush(this.modelMapper.map(userServiceModel, UserEntity.class));
+               return true;
+           }catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+
+        //setAuthotiries
+
+
+        //return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
+
     }
+
 
     @Override
     public List<UserServiceModel> findAllUsers() {
@@ -91,26 +114,24 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void setUserRole(UserServiceModel userServiceModel, String role) {
+    public UserServiceModel setUserRole(UserServiceModel userServiceModel) {
 
        userServiceModel.getAuthorities().clear();
 
-        switch (role) {
-            case "ROLE_USER":
-                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
+        switch (userServiceModel.getRole()) {
+            case "role_user":
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("role_user"));
                 break;
-            case "ROLE_MANAGER":
-                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
-                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_MODERATOR"));
+            case "role_manager":
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("role_manager"));
                 break;
-            case "ROLE_ADMIN":
-            case "ROLE_ROOT":
-                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_USER"));
-                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_MODERATOR"));
-                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_ADMIN"));
+            case "role_admin":
+            case "role_root":
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("role_manager"));
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("role_admin"));
                 break;
         }
-//this.userRepository.saveAndFlush(this.modelMapper.map(userServiceModel, UserEntity.class));
-        //return  userServiceModel;
+        //this.userRepository.saveAndFlush(this.modelMapper.map(userServiceModel, UserEntity.class));
+        return  userServiceModel;
     }
 }

@@ -1,6 +1,6 @@
 package com.minchev.plantlab.validations.enums;
 
-import com.minchev.plantlab.validations.anotations.ValidateEnum;
+import com.minchev.plantlab.validations.annotations.ValidateEnum;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

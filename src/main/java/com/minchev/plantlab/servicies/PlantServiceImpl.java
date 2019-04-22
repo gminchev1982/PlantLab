@@ -6,6 +6,7 @@ import com.minchev.plantlab.errors.PlantNotFoundException;
 import com.minchev.plantlab.models.service.PlantServiceEditModel;
 import com.minchev.plantlab.models.service.PlantServiceModel;
 import com.minchev.plantlab.models.view.PlantLabViewModel;
+import com.minchev.plantlab.models.view.PlantListViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -53,7 +54,7 @@ public class PlantServiceImpl implements PlantService {
     }
 
     @Override
-    public List<PlantServiceModel> findAllPlants(Integer page, String sort, String search) {
+    public List<PlantListViewModel> findAllPlants(Integer page, String sort, String search) {
 
         //de se popravi
         Integer limit = 2;
@@ -72,7 +73,7 @@ public class PlantServiceImpl implements PlantService {
         this.setPagingNumber(records.getTotalPages());
         return records.getContent()
                 .stream()
-                .map(u -> this.modelMapper.map(u, PlantServiceModel.class))
+                .map(u -> this.modelMapper.map(u, PlantListViewModel.class))
                 .collect(Collectors.toList())
         ;
     }

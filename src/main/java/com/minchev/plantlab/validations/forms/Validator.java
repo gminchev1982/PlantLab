@@ -1,4 +1,4 @@
-package com.minchev.plantlab.validations.anotations;
+package com.minchev.plantlab.validations.forms;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;

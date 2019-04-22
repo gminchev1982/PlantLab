@@ -1,5 +1,6 @@
 package com.minchev.plantlab.controllers.web;
 
+import com.minchev.plantlab.interceptors.PageTitle;
 import com.minchev.plantlab.models.service.PlantServiceModel;
 import com.minchev.plantlab.servicies.PlantService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +24,7 @@ public class PlantController extends BaseController {
 
     @GetMapping("/all")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Plants")
     public ModelAndView homePlant(ModelAndView modelAndView,
                                   @RequestParam(value = "page", defaultValue = "1") int page,
                                   @RequestParam(value = "sort", defaultValue = "createdAt,desc") String sort,

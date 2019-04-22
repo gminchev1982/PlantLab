@@ -4,36 +4,16 @@ import com.minchev.plantlab.databases.entities.PlantEntity;
 
 public class LabServiceModel extends BaseServiceModel {
 
-        private PlantServiceModel plant;
+   /*     private PlantServiceModel plant;
     private ProductServiceModel  product;
-    private UserServiceModel  user;
+    private UserServiceModel  user;*/
+
+    private String plantId;
+    private String productId;
+    private String userId;
     private String status;
     private String comment;
     private String quantity;
-
-    public PlantServiceModel getPlant() {
-        return plant;
-    }
-
-    public void setPlant(PlantServiceModel plant) {
-        this.plant = plant;
-    }
-
-    public ProductServiceModel getProduct() {
-        return product;
-    }
-
-    public void setProduct(ProductServiceModel product) {
-        this.product = product;
-    }
-
-    public UserServiceModel getUser() {
-        return user;
-    }
-
-    public void setUser(UserServiceModel user) {
-        this.user = user;
-    }
 
     public String getStatus() {
         return status;
@@ -57,5 +37,29 @@ public class LabServiceModel extends BaseServiceModel {
 
     public void setQuantity(String quantity) {
         this.quantity = quantity;
+    }
+
+    public String getPlantId() {
+        return plantId;
+    }
+
+    public void setPlantId(String plantId) {
+        this.plantId = plantId;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

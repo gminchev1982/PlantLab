@@ -39,8 +39,9 @@
     <table class="table  w-75 mx-auto">
         <thead>
         <tr class="row mx-auto">
+            <th class="col-md-1 text-center th-sm">&nbsp;</th>
             <th class="col-md-2 text-center th-sm">#</th>
-            <th class="col-md-4 text-center th-sm">#</th>
+            <th class="col-md-3 text-center th-sm">#</th>
             <th class="col-md-5 text-center">Barcode <a th:href="@{/plants/all(sort='barcode,desc')}"
                                                         th:class="${#strings.equals(sort, 'barcode,desc')? 'active':''}"><i
                     class="fas fa-angle-up" style="font-size: 1.4rem;"></i></a><a
@@ -54,8 +55,10 @@
         <tbody>
         <th:block th:each="plant, iter : ${plantAll}">
             <tr class="row mx-auto">
+                <td  th:if="${plant.active==true}" class="col-md-1 text-center" title="Active"><i class="fas fa-check-circle color-green"></i></td>
+                <td  th:if="${plant.active==false}" class="col-md-1 text-center" title="Deleted"><i class="fas fa-minus-circle color-red"></i></td>
                 <td class="col-md-2 text-center" th:text="${page>1}? ${iter.count}+ ${page} : ${iter.count}"></td>
-                <td class="col-md-4 text-center" th:text="${plant.dateAt}"></td>
+                <td class="col-md-3 text-center" th:text="${plant.dateAt}"></td>
                 <td class="col-md-5 text-center" th:text="${plant.barcode}"></td>
                 <td class="col-md-1 text-center"><a href="#"><i class="fas fa-user-edit logo-blue-color"
                                                                 th:attr="pl-id=${plant.id}"></i></td>

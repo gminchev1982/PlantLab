@@ -9,10 +9,12 @@
     <th:block th:include="~{fragments/navbar}"></th:block>
 </header>
 <main class="mt-3">
-    <h1 class="text-center text-dark">Edit</h1>
-    <hr class="hr-2 bg-dark w-25">
-    <form class="form w-25 mx-auto" th:action="@{/users/edit/{id}(id=${id})}" th:method="post" th:object="${model}">
+    <h1 class="text-center text-dark">Profile</h1>
 
+    <div  th:if="${flag==true}" class="alert alert-success w-25 mx-auto" th:text="${message}"></div>
+    <div  th:if="${flag==false}" class="alert alert-danger w-25 mx-auto" th:text="${message}"></div>
+
+    <form class="form w-25 mx-auto" th:action="@{/users/profile}" th:method="post" th:object="${model}">
 
         <div class="form-group">
             <label for="name" class="font-weight-bold">Name</label>
@@ -47,28 +49,7 @@
             </th:block>
         </div>
 
-
-        <th:block>
-        <div class="form-group">
-            <label for="role" class="font-weight-bold">Role</label>
-            <select name="role" id="role" class="form-control">
-
-                <option th:value="null">------------</option>
-
-                <option th:each="type : ${roles}" th:value="${type.id}" th:text="${#strings.substringAfter(type.authority,'ROLE_')}" th:selected="${model.role==type.id}"></option>
-            </select>
-
-            <th:block th:if="${#fields.hasErrors('role')}">
-                <small class="error" th:errors="*{role}"></small>
-            </th:block>
-        </div>
-        </th:block>
-
-        <th:block sec:authorize="hasRole('role_user')">
             <input type="hidden" name="role" th:value="${model.role}">
-        </th:block>
-
-
 
         <hr class="hr-2 bg-dark">
         <div class="button-holder d-flex justify-content-center">

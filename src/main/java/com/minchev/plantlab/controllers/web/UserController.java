@@ -2,21 +2,29 @@ package com.minchev.plantlab.controllers.web;
 
 
 
+import com.minchev.plantlab.models.forms.UserEditForm;
 import com.minchev.plantlab.models.forms.UserRegisterForm;
 import com.minchev.plantlab.models.service.UserServiceModel;
 import com.minchev.plantlab.models.view.UserAllViewModel;
 import com.minchev.plantlab.servicies.RoleService;
 import com.minchev.plantlab.servicies.UserService;
+import com.minchev.plantlab.validations.constants.ValidationConstants;
 import com.minchev.plantlab.validations.forms.UserEditValidator;
 import com.minchev.plantlab.validations.forms.UserRegisterValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,7 +39,9 @@ public class UserController extends BaseController {
     private final UserEditValidator userEditValidator;
 
     @Autowired
-    public UserController(UserService userService, RoleService roleService, ModelMapper modelMapper, UserRegisterValidator userRegisterValidator, UserEditValidator userEditValidator) {
+    public UserController(UserService userService, RoleService roleService, ModelMapper modelMapper,
+                          UserRegisterValidator userRegisterValidator,
+                          UserEditValidator userEditValidator) {
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.userRegisterValidator = userRegisterValidator;
@@ -41,7 +51,7 @@ public class UserController extends BaseController {
       //  this.userEditValidator = userEditValidator;
     }
     @GetMapping("/register")
-    @PreAuthorize("isAnonymous()")
+    @PreAuthorize("hasRole('ROLE_ROOT')")
     //@PageTitle("Register")
     public ModelAndView register(ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model) {
         modelAndView.addObject("model", model);
@@ -50,9 +60,11 @@ public class UserController extends BaseController {
     }
 
 
+
+
     @PostMapping("/register")
-    @PreAuthorize("isAnonymous()")
-    public ModelAndView registerConfirm(ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model, BindingResult bindingResult) {
+    @PreAuthorize("hasRole('ROLE_ROOT')")
+    public ModelAndView registerConfirm(ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model, BindingResult bindingResult) throws IOException {
         this.userRegisterValidator.validate(model, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -67,7 +79,7 @@ public class UserController extends BaseController {
         UserServiceModel userServiceModel = this.modelMapper.map(model, UserServiceModel.class);
         this.userService.registerUser(userServiceModel);
 
-        return redirect("users/login");
+        return redirect("/users/all");
     }
 
 
@@ -124,4 +136,58 @@ public class UserController extends BaseController {
 
         return redirect("/users/all");
     }
+
+    @GetMapping("/profile")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView profile (ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model, Principal principal) {
+
+        model = this.modelMapper.map(this.userService.findUserByUserName(principal.getName()), UserRegisterForm.class);
+        model.setPassword(null);
+        modelAndView.addObject("model", model);
+        modelAndView.addObject("roles", roleService.findAllRoles());
+        return view("user/profile", modelAndView);
+    }
+
+
+    @PostMapping("/profile")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView profile (ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model, Principal principal,  BindingResult bindingResult) {
+        this.userEditValidator.validate(model, bindingResult);
+        if (bindingResult.hasErrors()) {
+            model.setPassword(null);
+            model.setConfirmPassword(null);
+            modelAndView.addObject("model", model);
+            modelAndView.addObject("roles", roleService.findAllRoles());
+            return view("/user/profile", modelAndView);
+        }
+
+        UserServiceModel userServiceModel = this.modelMapper.map(model, UserServiceModel.class);
+        userServiceModel.setUsername(principal.getName());
+        boolean result = this.userService.editUserProfile(userServiceModel);
+        this.setMassage (modelAndView, result);
+
+        return view("user/profile", modelAndView);
+    }
+
+
+    public void setMassage (ModelAndView modelAndView, boolean result) {
+        if (result==true) {
+            modelAndView.addObject("message", ValidationConstants.USERNAME_EDIT);
+            modelAndView.addObject("flag", true);
+        }
+        else {
+            modelAndView.addObject("message", ValidationConstants.USERNAME_EDIT_WRONG);
+            modelAndView.addObject("flag", false);
+        }
+    }
+
+  /* @GetMapping("/logout")
+    @PreAuthorize("isAnonymous()")
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/users/login";
+    }*/
 }

@@ -7,7 +7,7 @@ public class UserAllViewModel {
     private String id;
     private String name;
     private String username;
-
+    private String image;
     public UserAllViewModel() {
     }
 
@@ -35,5 +35,11 @@ public class UserAllViewModel {
         this.name = name;
     }
 
+    public String getImage() {
+        return image;
+    }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
 }

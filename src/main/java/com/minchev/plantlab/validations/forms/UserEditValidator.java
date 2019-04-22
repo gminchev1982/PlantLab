@@ -2,7 +2,6 @@ package com.minchev.plantlab.validations.forms;
 
 import com.minchev.plantlab.databases.repositories.UserRepository;
 import com.minchev.plantlab.models.forms.UserRegisterForm;
-import com.minchev.plantlab.validations.anotations.Validator;
 import com.minchev.plantlab.validations.constants.ValidationConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;

@@ -3,7 +3,8 @@ package com.minchev.plantlab.validations.constants;
 public class ValidationConstants {
 
     public final static String USERNAME_ALREADY_EXISTS = "Username %s already exists!";
-
+    public final static String USERNAME_EDIT = "Username is edited successfully!";
+    public static final String USERNAME_EDIT_WRONG = "Something Went Wrong";
     public final static String USERNAME_LENGTH = "Username must be between 3 and 50 characters long!";
 
     public final static String PASSWORDS_DO_NOT_MATCH = "Passwords don't match!";
@@ -25,4 +26,5 @@ public class ValidationConstants {
     public final static String[] PRODUCT_DONE = {"Product saved successfully!!"};
 
     public final static String NOT_EXIST =  "%s not exists!";
+
 }

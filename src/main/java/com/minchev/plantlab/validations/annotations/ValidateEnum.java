@@ -1,4 +1,4 @@
-package com.minchev.plantlab.validations.anotations;
+package com.minchev.plantlab.validations.annotations;
 
 import com.minchev.plantlab.validations.enums.EnumValidator;
 

@@ -1,10 +1,7 @@
 package com.minchev.plantlab.validations.forms;
 
-import com.minchev.plantlab.databases.repositories.PlantRepository;
 import com.minchev.plantlab.databases.repositories.ProductRepository;
-import com.minchev.plantlab.models.forms.PlantSaveForm;
 import com.minchev.plantlab.models.forms.ProductSaveForm;
-import com.minchev.plantlab.validations.anotations.Validator;
 import com.minchev.plantlab.validations.constants.ValidationConstants;
 import org.springframework.validation.Errors;
 

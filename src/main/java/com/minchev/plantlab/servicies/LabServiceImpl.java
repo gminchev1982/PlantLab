@@ -1,6 +1,7 @@
 package com.minchev.plantlab.servicies;
 
 import com.minchev.plantlab.databases.entities.LabEntity;
+import com.minchev.plantlab.databases.enums.Health;
 import com.minchev.plantlab.databases.repositories.LabRepository;
 import com.minchev.plantlab.databases.repositories.PlantRepository;
 import com.minchev.plantlab.databases.repositories.ProductRepository;
@@ -48,9 +49,13 @@ public class LabServiceImpl implements LabService {
         PlantServiceModel plantServiceModel =  this.modelMapper.map(this.plantRepository.findById(labSaveForm.getPlant()).orElse(null), PlantServiceModel.class);
         ProductServiceModel productServiceModel = this.modelMapper.map(this.productRepository.findById(labSaveForm.getProduct()).orElse(null), ProductServiceModel.class);
         UserServiceModel userServiceModel = this.modelMapper.map(this.userRepository.findByUsername(principal.getName()).orElse(null), UserServiceModel.class);
-        labServiceModel.setPlant(plantServiceModel);
-        labServiceModel.setProduct(productServiceModel);
-        labServiceModel.setUser(userServiceModel);
+        labServiceModel.setUserId(userServiceModel.getId());
+
+
+        labServiceModel.setPlantId(plantServiceModel.getId());
+        labServiceModel.setProductId(productServiceModel.getId());
+        //labServiceModel.setStatus(labSaveForm.getStatus());
+
        /* labServiceModel.setProduct(this.productRepository.findById(labSaveForm.getProduct()).orElse(null));
         labServiceModel.setUser(this.userRepository.findByUsername(principal.getName()).orElse(null));*/
 

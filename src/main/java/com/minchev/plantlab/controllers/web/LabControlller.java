@@ -1,6 +1,7 @@
 package com.minchev.plantlab.controllers.web;
 
 import com.minchev.plantlab.databases.enums.Health;
+import com.minchev.plantlab.interceptors.PageTitle;
 import com.minchev.plantlab.servicies.LabService;
 import com.minchev.plantlab.servicies.PlantService;
 import com.minchev.plantlab.servicies.ProductService;
@@ -26,6 +27,7 @@ public class LabControlller extends  BaseController{
 
     @GetMapping("/labs")
     @PreAuthorize("isAuthenticated()")
+    @PageTitle("Labs")
     public ModelAndView homeLabs(ModelAndView modelAndView,
                                   @RequestParam(value = "page", defaultValue = "1") int page,
                                   @RequestParam(value = "sort", defaultValue = "createdAt,desc") String sort){
@@ -36,5 +38,12 @@ public class LabControlller extends  BaseController{
         modelAndView.addObject("labs", this.labService.findAllLabs(page, sort));
 
         return view("labs/list", modelAndView);
+    }
+
+    @GetMapping("/labs/activities")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PageTitle("Labs Activities")
+    public ModelAndView Activities (){
+        return view("labs/activities");
     }
 }

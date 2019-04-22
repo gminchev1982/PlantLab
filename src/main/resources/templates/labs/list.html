@@ -15,18 +15,22 @@
             <h1 class="text-left text-dark">Labs</h1>
         </div>
         <div class="col-md-11 text-right">
+           <th:block sec:authorize="hasRole('ROLE_USER')">
             <button type="button" class="btn btn-primary text-right product-new" data-toggle="modal"
                     data-target="#myModal">
                 New
             </button>
+           </th:block>
         </div>
 
         <table class="table mx-auto">
             <thead>
             <tr class="row mx-auto">
+                <th class="col-md-1 text-center th-sm">&nbsp;</th>
+                <th class="col-md-1 text-center th-sm">&nbsp;</th>
                 <th class="col-md-1 text-center th-sm">#</th>
                 <th class="col-md-4 text-center th-sm">Plant</th>
-                <th class="col-md-4 text-center th-sm">Product</th>
+                <th class="col-md-2 text-center th-sm">Product</th>
                 <th class="col-md-1 text-center th-sm">Quantity</th>
                 <th class="col-md-2 text-center th-sm">User</th>
             </tr>
@@ -34,13 +38,23 @@
             <tbody>
             <th:block th:each="lab, iter : ${labs}">
                 <tr class="row mx-auto">
+                    <td class="col-md-1 text-center th-sm">
+                        <i th:if="${lab.comment!=''}" class="fas fa-comment color-blue"></i>
+                    </td>
+                    <td class="col-md-1 text-center th-sm">
+
+                        <span th:if="${lab.status=='Dead'}"  class="color-red" th:text="${lab.status}"></span>
+                        <span th:if="${lab.status=='Ok'}"  class="color-green" th:text="${lab.status}"></span>
+                        <span th:if="${lab.status=='Ill'}"   class="color-yellow" th:text="${lab.status}"></span>
+
+                    </td>
                     <td class="col-md-1 text-center" th:text="${iter.count}"></td>
                     <td class="col-md-4 text-center" th:text="${lab.plantId}"></td>
-                    <td class="col-md-4 text-center" th:text="${lab.productId}"></td>
+                    <td class="col-md-2 text-center" th:text="${lab.productId}"></td>
                     <td class="col-md-1 text-center" th:text="${lab.quantity}"></td>
                     <td class="col-md-2 text-center" th:text="${lab.userId}"></td>
                 </tr>
-                <tr class="row mx-auto" th:text="${lab.comment}"></tr>
+
             </th:block>
             <!--<tr th:if="${products.empty}">
                 <td colspan="2"> List is empty!</td>

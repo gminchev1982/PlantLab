@@ -21,13 +21,12 @@
             </button>
         </div>
 
-
+    </div>
         <table class="table  w-75 mx-auto">
             <thead>
             <tr class="row mx-auto">
                 <th class="col-md-2 text-center th-sm">#</th>
-                <th class="col-md-4 text-center th-sm">#</th>
-                <th class="col-md-5 text-center">Name <a th:href="@{/products(sort='name,desc')}"
+                <th class="col-md-9 text-center">Name <a th:href="@{/products(sort='name,desc')}"
                                                          th:class="${#strings.equals(sort, 'name,desc')? 'active':''}"><i
                         class="fas fa-angle-up" style="font-size: 1.4rem;"></i></a><a
                         th:href="@{/products(sort='name,asc')}"
@@ -41,8 +40,7 @@
             <th:block th:each="product, iter : ${products}">
                 <tr class="row mx-auto">
                     <td class="col-md-2 text-center" th:text="${page>1}? ${iter.count}+ ${page} : ${iter.count}"></td>
-                    <td class="col-md-4 text-center" th:text="${product.dateAt}"></td>
-                    <td class="col-md-5 text-center" th:text="${product.name}"></td>
+                    <td class="col-md-9 text-center" th:text="${product.name}"></td>
                     <td class="col-md-1 text-center"><a href="#"><i class="fas fa-user-edit logo-blue-color"
                                                                     th:attr="pr-id=${product.id}"></i></td>
                 </tr>
@@ -69,7 +67,7 @@
             </tr>
             </tbody>
         </table>
-    </div>
+
     <!-- The Modal -->
     <div class="modal" id="myModal">
         <div class="modal-dialog">

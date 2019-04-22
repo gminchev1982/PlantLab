@@ -1,5 +1,7 @@
 package com.minchev.plantlab.models.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Set;
 
 public class UserServiceModel extends BaseServiceModel {
@@ -8,6 +10,8 @@ public class UserServiceModel extends BaseServiceModel {
     private String username;
     private String password;
     private String role;
+    private String image;
+    private MultipartFile images;
     private Set<RoleServiceModel> authorities;
 
     public UserServiceModel() {
@@ -51,5 +55,21 @@ public class UserServiceModel extends BaseServiceModel {
 
     public void setAuthorities(Set<RoleServiceModel> authorities) {
         this.authorities = authorities;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public MultipartFile getImages() {
+        return images;
+    }
+
+    public void setImages(MultipartFile images) {
+        this.images = images;
     }
 }

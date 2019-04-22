@@ -26,7 +26,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
                 .antMatchers("/js/**", "/css/**").permitAll()
-                .antMatchers("/", "/users/register", "/users/login").anonymous()
+                .antMatchers("/",  "/users/login" ).anonymous()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -36,10 +36,10 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/home")
                 .and()
                 .logout()
-                .logoutSuccessUrl("/")
+                .logoutSuccessUrl("/users/login")
                 .and()
                 .exceptionHandling()
-                .accessDeniedPage("/403");
+                .accessDeniedPage("/");
     }
 
 

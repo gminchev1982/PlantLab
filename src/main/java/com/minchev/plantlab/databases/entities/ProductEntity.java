@@ -48,4 +48,6 @@ public class ProductEntity  extends  BaseEntity{
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+
+
 }

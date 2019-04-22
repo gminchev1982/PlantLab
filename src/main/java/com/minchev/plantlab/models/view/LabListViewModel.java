@@ -82,7 +82,7 @@ public class LabListViewModel   implements IHaveCustomMappings {
                         (dto, value) -> dto.setProductId((String) value)
                 )
                 .addMapping(
-                        entity -> entity.getUser().getUsername(),
+                        entity -> entity.getUser().getName(),
                         (dto, value) -> dto.setUserId((String) value)
                 );
     }

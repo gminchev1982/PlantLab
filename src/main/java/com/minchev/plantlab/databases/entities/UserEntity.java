@@ -13,7 +13,10 @@ public class UserEntity extends BaseEntity implements UserDetails {
     private String username;
     private String password;
     private String role;
+    private String image;
     private Set<RoleEntity> authorities;
+
+
 
     public UserEntity() {
     }
@@ -74,6 +77,14 @@ public class UserEntity extends BaseEntity implements UserDetails {
 
     public void setAuthorities(Set<RoleEntity> authorities) {
         this.authorities = authorities;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @Override
