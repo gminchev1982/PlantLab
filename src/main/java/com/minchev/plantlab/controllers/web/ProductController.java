@@ -1,8 +1,6 @@
 package com.minchev.plantlab.controllers.web;
 
 import com.minchev.plantlab.interceptors.PageTitle;
-import com.minchev.plantlab.models.service.PlantServiceModel;
-import com.minchev.plantlab.models.service.ProductServiceModel;
 import com.minchev.plantlab.servicies.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 @Controller
 public class ProductController extends  BaseController {

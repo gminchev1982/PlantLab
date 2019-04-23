@@ -1,4 +1,4 @@
-/*package com.minchev.plantlab.controllers.web;
+package com.minchev.plantlab.controllers.web;
 
 import com.minchev.plantlab.databases.entities.LabEntity;
 import com.minchev.plantlab.databases.repositories.LabRepository;
@@ -6,7 +6,6 @@ import com.minchev.plantlab.models.view.LabListViewModel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import static junit.framework.TestCase.*;
 import static org.mockito.ArgumentMatchers.any;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,4 +64,4 @@ public class LabControllerTest {
         assertEquals(labs.size(), viewModels.size());
     }
 
-}*/
+}

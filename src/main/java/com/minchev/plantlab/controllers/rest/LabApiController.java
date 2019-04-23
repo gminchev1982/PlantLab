@@ -1,8 +1,5 @@
 package com.minchev.plantlab.controllers.rest;
 
-import com.minchev.plantlab.databases.repositories.LabRepository;
-import com.minchev.plantlab.databases.repositories.PlantRepository;
-import com.minchev.plantlab.databases.repositories.ProductRepository;
 import com.minchev.plantlab.models.forms.LabEditForm;
 import com.minchev.plantlab.models.forms.LabSaveForm;
 import com.minchev.plantlab.servicies.LabService;

@@ -1,8 +1,8 @@
-
 package com.minchev.plantlab.controllers.web;
 
-import com.minchev.plantlab.databases.entities.PlantEntity;
-import com.minchev.plantlab.databases.repositories.PlantRepository;
+
+import com.minchev.plantlab.databases.entities.ProductEntity;
+import com.minchev.plantlab.databases.repositories.ProductRepository;
 import com.minchev.plantlab.models.view.PlantListViewModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,25 +27,24 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class PlantControllerTest {
+public class ProductControllerTest {
 
     @Autowired
-    PlantController controller;
+    ProductController controller;
 
     @MockBean
     private Pageable pageable;
 
     @MockBean
-    PlantRepository mockRepository;
+    ProductRepository mockRepository;
 
-    private ArrayList<PlantEntity> plants;
-
+    private ArrayList<ProductEntity> products;
 
     @Before
     public void setupTest() throws Exception {
-        plants = new ArrayList<>();
+        products = new ArrayList<>();
 
-        Page pageImpl = new PageImpl(plants);
+        Page pageImpl = new PageImpl(products);
         int pageNumber = 0;
         int pageSize = 10;
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
@@ -59,13 +58,13 @@ public class PlantControllerTest {
 
     @Test
     @WithMockUser
-    public void homePlant_whenPlantIsEmpty_empty() throws Exception {
-        plants.clear();
+    public void productPage_whenProductIsEmpty_empty() throws Exception {
+        products.clear();
         ModelAndView modelAndView = new ModelAndView();
         try {
-            ModelAndView result = controller.homePlant(modelAndView, 0, "createdAt", "");
-            result.addObject("plants", plants);
-            List<PlantListViewModel> viewModels = (List<PlantListViewModel>) result.getModel().get("plants");
+            ModelAndView result = controller.productPage(modelAndView, 0, "createdAt");
+            result.addObject("products", products);
+            List<PlantListViewModel> viewModels = (List<PlantListViewModel>) result.getModel().get("products");
             assertTrue(viewModels.isEmpty());
         } catch (Exception e) {
 
@@ -75,19 +74,18 @@ public class PlantControllerTest {
 
     @Test
     @WithMockUser
-    public void homePlant_whenPlantNotEmpty_plants() throws Exception {
-        plants.addAll(List.of(new PlantEntity()));
+    public void productPage_whenProductNotEmpty_empty() throws Exception {
+        products.addAll(List.of(new ProductEntity()));
         ModelAndView modelAndView = new ModelAndView();
         try {
-            ModelAndView result = controller.homePlant(modelAndView, 0, "createdAt", "");
-            result.addObject("plants", plants);
-            List<PlantListViewModel> viewModels = (List<PlantListViewModel>) result.getModel().get("plants");
-            assertEquals(plants.size(), viewModels.size());
+            ModelAndView result = controller.productPage(modelAndView, 0, "createdAt");
+            result.addObject("products", products);
+            List<PlantListViewModel> viewModels = (List<PlantListViewModel>) result.getModel().get("products");
+            assertEquals(products.size(), viewModels.size());
         } catch (Exception e) {
 
         }
+
     }
 
-
 }
-

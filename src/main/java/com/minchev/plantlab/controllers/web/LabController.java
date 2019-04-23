@@ -5,7 +5,6 @@ import com.minchev.plantlab.interceptors.PageTitle;
 import com.minchev.plantlab.servicies.LabService;
 import com.minchev.plantlab.servicies.PlantService;
 import com.minchev.plantlab.servicies.ProductService;
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

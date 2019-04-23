@@ -2,7 +2,6 @@ package com.minchev.plantlab.controllers.web;
 
 
 
-import com.minchev.plantlab.models.forms.UserEditForm;
 import com.minchev.plantlab.models.forms.UserRegisterForm;
 import com.minchev.plantlab.models.service.UserServiceModel;
 import com.minchev.plantlab.models.view.UserAllViewModel;
@@ -16,14 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
