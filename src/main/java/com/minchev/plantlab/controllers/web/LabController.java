@@ -6,20 +6,21 @@ import com.minchev.plantlab.servicies.LabService;
 import com.minchev.plantlab.servicies.PlantService;
 import com.minchev.plantlab.servicies.ProductService;
 import org.dom4j.rule.Mode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 @Controller
-public class LabControlller extends  BaseController{
+public class LabController extends  BaseController{
 
 
     private final PlantService plantService;
     private final ProductService productService;
     private final LabService labService;
-
-    public LabControlller(PlantService plantService, ProductService productService, LabService labService) {
+    @Autowired
+    public LabController(PlantService plantService, ProductService productService, LabService labService) {
         this.plantService = plantService;
         this.productService = productService;
         this.labService = labService;

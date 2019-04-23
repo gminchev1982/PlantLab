@@ -1,5 +1,7 @@
 package com.minchev.plantlab.servicies;
 
+import com.minchev.plantlab.components.PageIndex;
+import com.minchev.plantlab.components.SortPage;
 import com.minchev.plantlab.databases.entities.PlantEntity;
 import com.minchev.plantlab.databases.repositories.PlantRepository;
 import com.minchev.plantlab.errors.PlantNotFoundException;
@@ -24,13 +26,17 @@ public class PlantServiceImpl implements PlantService {
 
     private final PlantRepository plantRepository;
     private final ModelMapper modelMapper;
+    private final PageIndex pageIndex;
+    private final SortPage sortPage;
     private Pageable pagebleRequest;
     private List<Integer> pageNumbers = null;
 
     @Autowired
-    public PlantServiceImpl(PlantRepository plantRepository, ModelMapper modelMapper) {
+    public PlantServiceImpl(PlantRepository plantRepository, PageIndex pageIndex, SortPage sortPage, ModelMapper modelMapper) {
         this.plantRepository = plantRepository;
         this.modelMapper = modelMapper;
+        this.pageIndex = pageIndex;
+        this.sortPage = sortPage;
 
     }
 
@@ -56,26 +62,22 @@ public class PlantServiceImpl implements PlantService {
     @Override
     public List<PlantListViewModel> findAllPlants(Integer page, String sort, String search) {
 
-        //de se popravi
-        Integer limit = 2;
-        if (page-1<0) page =0; else page= page-1;
-        String[]  sortType = sort.split(",");
-        Sort sortBy = null;
-        if (sortType.length>0 && sortType[1].equals("asc")){
-            sortBy= new Sort(Sort.Direction.ASC, sortType[0]);
-        }
-        if (sortType.length>0 && sortType[1].equals("desc")){
-            sortBy= new Sort(Sort.Direction.DESC, sortType[0]);
-        }
-        PageRequest pageable = PageRequest.of(page, limit, sortBy);
-        Page<PlantEntity>  records =   this.plantRepository.findAll(pageable);
+        this.pageIndex.setCurrentPage(page);
+        this.sortPage.setSort(sort);
 
-        this.setPagingNumber(records.getTotalPages());
-        return records.getContent()
-                .stream()
-                .map(u -> this.modelMapper.map(u, PlantListViewModel.class))
-                .collect(Collectors.toList())
-        ;
+        try {
+            PageRequest pageable = PageRequest.of(this.pageIndex.getCurrentPage(), this.pageIndex.PAGE_LIMIT, this.sortPage.getSortBy());
+            Page<PlantEntity> records = this.plantRepository.findAll(pageable);
+            this.setPagingNumber(records.getTotalPages());
+            return records.getContent()
+                    .stream()
+                    .map(u -> this.modelMapper.map(u, PlantListViewModel.class))
+                    .collect(Collectors.toList());
+        }catch (Exception e){
+           return null;
+        }
+
+
     }
 
     @Override

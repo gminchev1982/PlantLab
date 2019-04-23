@@ -4,6 +4,7 @@ import com.minchev.plantlab.interceptors.PageTitle;
 import com.minchev.plantlab.models.service.PlantServiceModel;
 import com.minchev.plantlab.models.service.ProductServiceModel;
 import com.minchev.plantlab.servicies.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,13 +17,13 @@ import java.util.List;
 public class ProductController extends  BaseController {
 
     private final ProductService productService;
-
+    @Autowired
     public ProductController(ProductService productService) {
         this.productService  = productService;
     }
 
     @GetMapping("/products")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_ROOT')")
     @PageTitle("Products")
     public ModelAndView productPage(ModelAndView modelAndView,
                                     @RequestParam(value = "page", defaultValue = "1") int page,

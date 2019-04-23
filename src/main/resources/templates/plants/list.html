@@ -53,7 +53,7 @@
         </tr>
         </thead>
         <tbody>
-        <th:block th:each="plant, iter : ${plantAll}">
+        <th:block th:if="${plantAll!=null}" th:each="plant, iter : ${plantAll}">
             <tr class="row mx-auto">
                 <td  th:if="${plant.active==true}" class="col-md-1 text-center" title="Active"><i class="fas fa-check-circle color-green"></i></td>
                 <td  th:if="${plant.active==false}" class="col-md-1 text-center" title="Deleted"><i class="fas fa-minus-circle color-red"></i></td>
@@ -64,7 +64,7 @@
                                                                 th:attr="pl-id=${plant.id}"></i></td>
             </tr>
         </th:block>
-        <tr th:if="${plantAll.empty}">
+        <tr th:if="${plantAll==null}">
             <td colspan="2"> No Plant Available</td>
         </tr>
 

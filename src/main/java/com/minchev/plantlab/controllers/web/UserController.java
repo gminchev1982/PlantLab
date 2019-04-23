@@ -87,12 +87,18 @@ public class UserController extends BaseController {
     @PreAuthorize("isAnonymous()")
     //PageTitle("Login")
     public ModelAndView login() {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName(); //get logged in username
+
+        //model.addAttribute("username", name);
+
         return view("user/login");
     }
 
 
     @GetMapping("/all")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_ROOT')")
    // @PageTitle("All Users")
     public ModelAndView allUsers(ModelAndView modelAndView) {
         List<UserAllViewModel> users = this.userService.findAllUsers()
@@ -106,7 +112,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/edit/{id}")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_ROOT')")
     //@PageTitle("Edit Category")
         public ModelAndView editUser(@PathVariable String id, ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model) {
         model = this.modelMapper.map(this.userService.findUserById(id), UserRegisterForm.class);
@@ -118,7 +124,7 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/edit/{id}")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_ROOT')")
     public ModelAndView editUser(@PathVariable String id, ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model, BindingResult bindingResult, Principal principal) {
         this.userEditValidator.validate(model, bindingResult);
 

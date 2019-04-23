@@ -3,6 +3,7 @@ package com.minchev.plantlab.controllers.web;
 import com.minchev.plantlab.interceptors.PageTitle;
 import com.minchev.plantlab.models.service.PlantServiceModel;
 import com.minchev.plantlab.servicies.PlantService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +18,13 @@ import java.util.List;
 public class PlantController extends BaseController {
 
     private final PlantService plantService;
-
+    @Autowired
     public PlantController(PlantService plantService) {
         this.plantService = plantService;
     }
 
     @GetMapping("/all")
+   // @PreAuthorize("hasRole('ROLE_ROOT')")
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Plants")
     public ModelAndView homePlant(ModelAndView modelAndView,

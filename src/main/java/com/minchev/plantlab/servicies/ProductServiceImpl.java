@@ -1,7 +1,10 @@
 package com.minchev.plantlab.servicies;
 
+import com.minchev.plantlab.components.PageIndex;
+import com.minchev.plantlab.components.SortPage;
 import com.minchev.plantlab.databases.entities.ProductEntity;
 import com.minchev.plantlab.databases.repositories.ProductRepository;
+import com.minchev.plantlab.errors.PlantNotFoundException;
 import com.minchev.plantlab.errors.ProductNotFoundException;
 import com.minchev.plantlab.models.service.ProductServiceEditModel;
 import com.minchev.plantlab.models.service.ProductServiceModel;
@@ -25,12 +28,18 @@ public class ProductServiceImpl  implements ProductService{
     private final ModelMapper modelMapper;
     private Pageable pagebleRequest;
     private List<Integer> pageNumbers = null;
+    private final PageIndex pageIndex;
+    private final SortPage sortPage;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper) {
+    public ProductServiceImpl(ProductRepository productRepository,
+                              PageIndex pageIndex,
+                              SortPage sortPage,
+                              ModelMapper modelMapper) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
-
+        this.pageIndex = pageIndex;
+        this.sortPage = sortPage;
     }
 
     @Override
@@ -56,17 +65,11 @@ public class ProductServiceImpl  implements ProductService{
     @Override
     public List<ProductServiceModel> findAllProduct(Integer page, String sort) {
 
-        Integer limit = 2;
-        if (page-1<0) page =0; else page= page-1;
-        String[]  sortType = sort.split(",");
-        Sort sortBy = null;
-        if (sortType.length>0 && sortType[1].equals("asc")){
-            sortBy= new Sort(Sort.Direction.ASC, sortType[0]);
-        }
-        if (sortType.length>0 && sortType[1].equals("desc")){
-            sortBy= new Sort(Sort.Direction.DESC, sortType[0]);
-        }
-        PageRequest pageable = PageRequest.of(page, limit, sortBy);
+        this.pageIndex.setCurrentPage(page);
+        this.sortPage.setSort(sort);
+
+        try {
+        PageRequest pageable = PageRequest.of(this.pageIndex.getCurrentPage(), this.pageIndex.PAGE_LIMIT, this.sortPage.getSortBy());
         Page<ProductEntity> records =   this.productRepository.findAll(pageable);
 
         this.setPagingNumber(records.getTotalPages());
@@ -76,6 +79,9 @@ public class ProductServiceImpl  implements ProductService{
                 .map(u -> this.modelMapper.map(u, ProductServiceModel.class))
                 .collect(Collectors.toList())
                 ;
+        }catch (Exception e){
+            return null;
+        }
     }
 
     @Override
