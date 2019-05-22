@@ -1,8 +1,6 @@
 const http = (function () {
     const send = (url, method, body) => {
-        console.log("body", body);
-        console.log("method", method);
-        console.log("url", url);
+
         let payload
         if (method==="GET") {
             payload = {

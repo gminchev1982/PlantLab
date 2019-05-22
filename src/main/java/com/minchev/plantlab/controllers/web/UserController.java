@@ -48,6 +48,7 @@ public class UserController extends BaseController {
     }
     @GetMapping("/register")
     @PreAuthorize("hasRole('ROLE_ROOT')")
+    //@PreAuthorize("isAnonymous()")
     //@PageTitle("Register")
     public ModelAndView register(ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model) {
         modelAndView.addObject("model", model);
@@ -60,6 +61,7 @@ public class UserController extends BaseController {
 
     @PostMapping("/register")
     @PreAuthorize("hasRole('ROLE_ROOT')")
+    //@PreAuthorize("isAnonymous()")
     public ModelAndView registerConfirm(ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model, BindingResult bindingResult) throws IOException {
         this.userRegisterValidator.validate(model, bindingResult);
 
@@ -84,9 +86,19 @@ public class UserController extends BaseController {
     //PageTitle("Login")
     public ModelAndView login() {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName(); //get logged in username
 
+
+        //model.addAttribute("username", name);
+
+        return view("user/login");
+    }
+
+    @PostMapping("/login")
+    @PreAuthorize("isAnonymous()")
+    //PageTitle("Login")
+    public ModelAndView loginPOST() {
+
+        System.out.println("Ihuuu");;
         //model.addAttribute("username", name);
 
         return view("user/login");

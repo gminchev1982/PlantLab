@@ -2,6 +2,7 @@ package com.minchev.plantlab.servicies;
 
 import com.minchev.plantlab.components.PageIndex;
 import com.minchev.plantlab.components.SortPage;
+import com.minchev.plantlab.databases.entities.LabEntity;
 import com.minchev.plantlab.databases.entities.PlantEntity;
 import com.minchev.plantlab.databases.repositories.PlantRepository;
 import com.minchev.plantlab.errors.PlantNotFoundException;
@@ -46,17 +47,31 @@ public class PlantServiceImpl implements PlantService {
     }
 
     @Override
-    public PlantServiceModel save(PlantServiceModel plantServiceModel) {
-        PlantEntity plant = this.modelMapper.map(plantServiceModel, PlantEntity.class);
-        return this.modelMapper.map(this.plantRepository.saveAndFlush(plant), PlantServiceModel.class);
+    public Boolean save(PlantServiceModel plantServiceModel) {
+
+
+        try {
+            PlantEntity plant = this.modelMapper.map(plantServiceModel, PlantEntity.class);
+            this.plantRepository.saveAndFlush(plant);
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
-    public PlantServiceEditModel edit(PlantServiceEditModel plantServiceEditModel) {
-        PlantEntity plant = this.plantRepository.findById(plantServiceEditModel.getId()).orElseThrow(() -> new PlantNotFoundException("Plant not found!"));
-        plant.setBarcode(plantServiceEditModel.getBarcode());
-        plant.setActive(plantServiceEditModel.isActive());
-        return this.modelMapper.map(this.plantRepository.saveAndFlush(plant), PlantServiceEditModel.class);
+    public Boolean edit(PlantServiceEditModel plantServiceEditModel) {
+        PlantServiceModel plantServiceModel = this.modelMapper.map(plantServiceEditModel,  PlantServiceModel.class);
+        try {
+            PlantEntity plantEntity = this.modelMapper.map(plantServiceModel, PlantEntity.class);
+            this.plantRepository.saveAndFlush(plantEntity);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override

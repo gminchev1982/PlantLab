@@ -1,6 +1,7 @@
 package com.minchev.plantlab.validations.constants;
 
 public class ValidationConstants {
+    public final static String SAVE_WRONG = "Wrong!";
 
     public final static String USERNAME_ALREADY_EXISTS = "Username %s already exists!";
     public final static String USERNAME_EDIT = "Username is edited successfully!";

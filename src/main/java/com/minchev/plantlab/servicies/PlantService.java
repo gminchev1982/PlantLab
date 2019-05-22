@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface PlantService {
      PlantServiceModel findByBarcode(String barcode);
-     PlantServiceModel save(PlantServiceModel plantServiceModel);
-     PlantServiceEditModel edit(PlantServiceEditModel plantServiceEditModel);
+     Boolean save(PlantServiceModel plantServiceModel);
+     Boolean edit(PlantServiceEditModel plantServiceEditModel);
      List<PlantListViewModel> findAllPlants(Integer page, String sort, String search);
      List<PlantLabViewModel> findAllPlantsActive();
      PlantServiceModel findPlantById(String id);

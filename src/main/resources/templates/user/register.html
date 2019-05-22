@@ -24,7 +24,7 @@
 
         <div class="form-group">
             <label for="username" class="font-weight-bold">Username</label>
-            <input type="email" class="form-control" id="username" placeholder="Username..." name="username"
+            <input type="text" class="form-control" id="username" placeholder="Username..." name="username"
                    th:value="*{username}">
             <th:block th:if="${#fields.hasErrors('username')}">
                 <small class="error" th:errors="*{username}"></small>

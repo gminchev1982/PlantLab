@@ -50,32 +50,17 @@ public class LabServiceImpl implements LabService {
         ProductServiceModel productServiceModel = this.modelMapper.map(this.productRepository.findById(labSaveForm.getProduct()).orElse(null), ProductServiceModel.class);
         UserServiceModel userServiceModel = this.modelMapper.map(this.userRepository.findByUsername(principal.getName()).orElse(null), UserServiceModel.class);
         labServiceModel.setUserId(userServiceModel.getId());
-
-
         labServiceModel.setPlantId(plantServiceModel.getId());
         labServiceModel.setProductId(productServiceModel.getId());
-        //labServiceModel.setStatus(labSaveForm.getStatus());
-
-       /* labServiceModel.setProduct(this.productRepository.findById(labSaveForm.getProduct()).orElse(null));
-        labServiceModel.setUser(this.userRepository.findByUsername(principal.getName()).orElse(null));*/
-
 
         try {
             LabEntity labEntity = this.modelMapper.map(labServiceModel, LabEntity.class);
-
-
             labEntity = this.labRepository.saveAndFlush(labEntity);
-
             return true;
-
         } catch (Exception e) {
-
             e.printStackTrace();
-
             return false;
-
         }
-
     }
 
 
