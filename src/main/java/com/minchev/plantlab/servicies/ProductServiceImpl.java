@@ -4,16 +4,15 @@ import com.minchev.plantlab.components.PageIndex;
 import com.minchev.plantlab.components.SortPage;
 import com.minchev.plantlab.databases.entities.ProductEntity;
 import com.minchev.plantlab.databases.repositories.ProductRepository;
-import com.minchev.plantlab.errors.PlantNotFoundException;
 import com.minchev.plantlab.errors.ProductNotFoundException;
 import com.minchev.plantlab.models.service.ProductServiceEditModel;
 import com.minchev.plantlab.models.service.ProductServiceModel;
 import com.minchev.plantlab.models.view.ProductLabViewModel;
+import com.minchev.plantlab.validations.services.ProductValidationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.awt.print.Pageable;
@@ -26,6 +25,7 @@ public class ProductServiceImpl  implements ProductService{
 
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
+    private final ProductValidationService productValidationService;
     private Pageable pagebleRequest;
     private List<Integer> pageNumbers = null;
     private final PageIndex pageIndex;
@@ -33,9 +33,12 @@ public class ProductServiceImpl  implements ProductService{
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository,
+                              ProductValidationService productValidationService,
                               PageIndex pageIndex,
                               SortPage sortPage,
-                              ModelMapper modelMapper) {
+                              ModelMapper modelMapper
+    ) {
+        this.productValidationService = productValidationService;
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
         this.pageIndex = pageIndex;
@@ -43,23 +46,39 @@ public class ProductServiceImpl  implements ProductService{
     }
 
     @Override
-    public ProductServiceModel save(ProductServiceModel productServiceModel) {
+    public boolean save(ProductServiceModel productServiceModel) {
 
-        ProductEntity product = this.modelMapper.map(productServiceModel, ProductEntity.class);
-        return this.modelMapper.map(this.productRepository.saveAndFlush(product), ProductServiceModel.class);
+         if (productValidationService.isValid(productServiceModel)) {
+
+             try {
+             ProductEntity product = this.modelMapper.map(productServiceModel, ProductEntity.class);
+             this.productRepository.saveAndFlush(product);
+             return true;
+             } catch (Exception e) {
+                 e.printStackTrace();
+                 return false;
+             }
+         }  else return  false;
 
     }
 
     @Override
     public boolean edit(ProductServiceEditModel productEditForm) {
-        ProductEntity product = this.productRepository.findById(productEditForm.getId())
-                .orElseThrow(() -> new ProductNotFoundException("Product not found!"));
-        product.setActive(productEditForm.isActive());
-        product.setName(productEditForm.getName());
-        this.productRepository.save(product);
+        ProductServiceModel productServiceModel = this.modelMapper.map(productEditForm, ProductServiceModel.class);
 
+        if (productValidationService.isValid(productServiceModel)) {
+            ProductEntity product = this.productRepository.findById(productServiceModel.getId())
+                    .orElseThrow(() -> new ProductNotFoundException("Product not found!"));
 
-        return true;
+            try {
+                ProductEntity productEntity = this.modelMapper.map(productServiceModel, ProductEntity.class);
+                this.productRepository.save(productEntity);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+
+        } else return false;
     }
 
     @Override

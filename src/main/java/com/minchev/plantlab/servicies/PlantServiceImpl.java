@@ -2,7 +2,6 @@ package com.minchev.plantlab.servicies;
 
 import com.minchev.plantlab.components.PageIndex;
 import com.minchev.plantlab.components.SortPage;
-import com.minchev.plantlab.databases.entities.LabEntity;
 import com.minchev.plantlab.databases.entities.PlantEntity;
 import com.minchev.plantlab.databases.repositories.PlantRepository;
 import com.minchev.plantlab.errors.PlantNotFoundException;
@@ -10,15 +9,18 @@ import com.minchev.plantlab.models.service.PlantServiceEditModel;
 import com.minchev.plantlab.models.service.PlantServiceModel;
 import com.minchev.plantlab.models.view.PlantLabViewModel;
 import com.minchev.plantlab.models.view.PlantListViewModel;
+import com.minchev.plantlab.validations.services.PlantValidationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.awt.print.Pageable;
+import java.beans.PropertyChangeListener;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -29,12 +31,18 @@ public class PlantServiceImpl implements PlantService {
     private final ModelMapper modelMapper;
     private final PageIndex pageIndex;
     private final SortPage sortPage;
+    private final PlantValidationService plantValidationService;
     private Pageable pagebleRequest;
     private List<Integer> pageNumbers = null;
 
     @Autowired
-    public PlantServiceImpl(PlantRepository plantRepository, PageIndex pageIndex, SortPage sortPage, ModelMapper modelMapper) {
+    public PlantServiceImpl(PlantRepository plantRepository,
+                            PlantValidationService plantValidationService,
+                            PageIndex pageIndex,
+                            SortPage sortPage,
+                            ModelMapper modelMapper) {
         this.plantRepository = plantRepository;
+        this.plantValidationService = plantValidationService;
         this.modelMapper = modelMapper;
         this.pageIndex = pageIndex;
         this.sortPage = sortPage;
@@ -49,29 +57,32 @@ public class PlantServiceImpl implements PlantService {
     @Override
     public Boolean save(PlantServiceModel plantServiceModel) {
 
+        if (plantValidationService.isValid(plantServiceModel)) {
+            try {
+                PlantEntity plant = this.modelMapper.map(plantServiceModel, PlantEntity.class);
+                this.plantRepository.saveAndFlush(plant);
+                return true;
 
-        try {
-            PlantEntity plant = this.modelMapper.map(plantServiceModel, PlantEntity.class);
-            this.plantRepository.saveAndFlush(plant);
-            return true;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }  else return  false;
     }
 
     @Override
     public Boolean edit(PlantServiceEditModel plantServiceEditModel) {
-        PlantServiceModel plantServiceModel = this.modelMapper.map(plantServiceEditModel,  PlantServiceModel.class);
-        try {
-            PlantEntity plantEntity = this.modelMapper.map(plantServiceModel, PlantEntity.class);
-            this.plantRepository.saveAndFlush(plantEntity);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        PlantServiceModel plantServiceModel = this.modelMapper.map(plantServiceEditModel, PlantServiceModel.class);
+
+        if (plantValidationService.isValid(plantServiceModel)) {
+            try {
+                PlantEntity plantEntity = this.modelMapper.map(plantServiceModel, PlantEntity.class);
+                this.plantRepository.saveAndFlush(plantEntity);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        } else return  false;
     }
 
     @Override
@@ -88,8 +99,8 @@ public class PlantServiceImpl implements PlantService {
                     .stream()
                     .map(u -> this.modelMapper.map(u, PlantListViewModel.class))
                     .collect(Collectors.toList());
-        }catch (Exception e){
-           return null;
+        } catch (Exception e) {
+            return null;
         }
 
 
@@ -126,5 +137,6 @@ public class PlantServiceImpl implements PlantService {
                 .map(u -> this.modelMapper.map(u, PlantServiceModel.class))
                 .orElseThrow(() -> new PlantNotFoundException("Plant  not found!"));
     }
+
 
 }

@@ -15,7 +15,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import static com.minchev.plantlab.validations.constants.ValidationConstants.BARCODE_DONE;
-import static com.minchev.plantlab.validations.constants.ValidationConstants.SAVE_WRONG;
 
 @RestController
 @RequestMapping("/api/plants")
@@ -43,7 +42,7 @@ public class PlantApiController {
     public ResponseEntity save(@RequestBody PlantSaveForm plantForm, Errors errors) {
         this.plantSaveValidator.validate(plantForm, errors);
         if (errors.hasErrors()) {
-            return ResponseEntity.status(400).body(errors.getAllErrors());
+          return  ResponseEntity.status(400).body(errors.getAllErrors());
         }
 
         Boolean result  = this.plantService.save(this.modelMapper.map(plantForm, PlantServiceModel.class));

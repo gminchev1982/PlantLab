@@ -86,8 +86,7 @@
     <script>
 
         $(".product-new").on('click', (ev) => {
-
-            $("input[name=name]").val('')
+            $("#form-product").trigger('reset');
             $('.alert').addClass('d-none');
             $('.open-edit-form ').addClass('d-none');
             $('.open-new-form').removeClass('d-none');
@@ -116,74 +115,14 @@
 
         $("#form-product").on('submit', (ev) => {
             ev.preventDefault();
-            const data = {
-                name: $("input[name=name]").val()
-            };
-            http.post("/api/products/save", data)
-                .then((data) => {
-                    const response = data.json();
-                    if (data.status === 400) {
-
-                        response.then(resp => {
-                            $('.alert').html(resp[0].code);
-                            $('.alert').removeClass('d-none');
-                            $('.alert').removeClass('alert-success');
-                            $('.alert').addClass('alert-danger').show();
-
-                        });
-
-                    } else {
-
-                        response.then(resp => {
-                            console.log(resp);
-                            $('.alert').html(resp);
-                            $('.alert').removeClass('d-none');
-                            $('.alert').removeClass('alert-danger');
-                            $('.alert').addClass('alert-success');
-                            $("input[name=name]").val('')
-
-                        });
-
-
-                    }
-                });
+            responseNotes('products/save', 'form-product');
             return false;
         });
 
 
         $("#form-product-edit").on('submit', (ev) => {
-
-            const form = $("#form-product-edit").serializeArray();
-            let data = {};
-            $(form).each(function (index, obj) {
-                data[obj.name] = obj.value;
-            });
-
-
-            http.post("/api/products/edit", data)
-                .then((data) => {
-                    console.log('data', data)
-                    const response = data.json();
-
-                    if (data.status === 400) {
-
-                        response.then(resp => {
-                            $('.alert').html(data.message);
-                            $('.alert').removeClass('d-none');
-                            $('.alert').removeClass('alert-success');
-                            $('.alert').addClass('alert-danger').show();
-                        });
-
-                    } else {
-                        response.then(resp => {
-                            $('.alert').html(data.message);
-                            $('.alert').removeClass('d-none');
-                            $('.alert').removeClass('alert-danger');
-                            $('.alert').addClass('alert-success');
-                        });
-                    }
-                });
             ev.preventDefault();
+            responseNotes('products/edit', 'form-product-edit');
             return false;
         });
 

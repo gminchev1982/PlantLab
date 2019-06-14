@@ -1,5 +1,8 @@
 package com.minchev.plantlab.databases.entities;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.GeneratedValue;
@@ -7,24 +10,17 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
+@Getter
+@Setter
+@NoArgsConstructor
 public abstract class BaseEntity {
-
-    private String id;
-
-    protected BaseEntity() {
-    }
-
     @Id
     @GeneratedValue(generator = "uuid-string")
     @GenericGenerator(
             name = "uuid-string",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    public String getId() {
-        return id;
-    }
+    private String id;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+
 }

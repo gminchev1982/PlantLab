@@ -1,7 +1,6 @@
 package com.minchev.plantlab.controllers.web;
 
 
-
 import com.minchev.plantlab.models.forms.UserRegisterForm;
 import com.minchev.plantlab.models.service.UserServiceModel;
 import com.minchev.plantlab.models.view.UserAllViewModel;
@@ -13,8 +12,6 @@ import com.minchev.plantlab.validations.forms.UserRegisterValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -47,8 +44,8 @@ public class UserController extends BaseController {
       //  this.userEditValidator = userEditValidator;
     }
     @GetMapping("/register")
-    @PreAuthorize("hasRole('ROLE_ROOT')")
-    //@PreAuthorize("isAnonymous()")
+    //@PreAuthorize("hasRole('ROLE_ROOT')")
+    @PreAuthorize("isAnonymous()")
     //@PageTitle("Register")
     public ModelAndView register(ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model) {
         modelAndView.addObject("model", model);
@@ -60,8 +57,8 @@ public class UserController extends BaseController {
 
 
     @PostMapping("/register")
-    @PreAuthorize("hasRole('ROLE_ROOT')")
-    //@PreAuthorize("isAnonymous()")
+    //@PreAuthorize("hasRole('ROLE_ROOT')")
+    @PreAuthorize("isAnonymous()")
     public ModelAndView registerConfirm(ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model, BindingResult bindingResult) throws IOException {
         this.userRegisterValidator.validate(model, bindingResult);
 

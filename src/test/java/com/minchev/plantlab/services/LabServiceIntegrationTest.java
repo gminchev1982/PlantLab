@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class LabServiceTest {
+public class LabServiceIntegrationTest {
 
     @Autowired
     private LabService service;

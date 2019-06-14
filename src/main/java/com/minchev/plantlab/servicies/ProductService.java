@@ -8,7 +8,7 @@ import com.minchev.plantlab.models.view.ProductLabViewModel;
 import java.util.List;
 
 public interface ProductService {
-    ProductServiceModel save(ProductServiceModel productServiceModel);
+    boolean save(ProductServiceModel productServiceModel);
     boolean edit(ProductServiceEditModel productServiceEditModel);
     List<ProductServiceModel> findAllProduct(Integer page, String sort);
     List<ProductLabViewModel> findAllProductActive();

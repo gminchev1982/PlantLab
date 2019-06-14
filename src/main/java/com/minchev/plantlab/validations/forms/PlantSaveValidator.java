@@ -30,7 +30,7 @@ public class PlantSaveValidator implements org.springframework.validation.Valida
             );
         }
 
-        if ( !PlantSaveForm.getBarcode().isEmpty() && (PlantSaveForm.getBarcode().length() < 3|| PlantSaveForm.getBarcode().length() > 20)) {
+        if ( !PlantSaveForm.getBarcode().isEmpty() && (PlantSaveForm.getBarcode().length() < 20 || PlantSaveForm.getBarcode().length() > 20)) {
             errors.rejectValue(
                     "barcode",
                     ValidationConstants.BARCODE_LENGTH,

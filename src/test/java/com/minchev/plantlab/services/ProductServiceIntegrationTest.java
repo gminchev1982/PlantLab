@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class ProductServiceTest {
+public class ProductServiceIntegrationTest {
 
     @Autowired
     private ProductService service;

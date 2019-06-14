@@ -1,14 +1,17 @@
 package com.minchev.plantlab.databases.entities;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-
+@Data
 @Entity
 @Table(name = "plants")
+@EqualsAndHashCode(callSuper=false)
 public class PlantEntity extends BaseEntity {
-
-    private String barcode;
+    @Column(name = "barcode", nullable = false, unique = false, updatable = true, length = 20)
+    @Getter @Setter private String barcode;
     private boolean active;
     private Date createdAt;
 
@@ -18,17 +21,6 @@ public class PlantEntity extends BaseEntity {
         this.active = true;
 
     }
-    public PlantEntity() {
-    }
-
-    @Column(name = "barcode", nullable = false, unique = false, updatable = true, length = 20)
-    public String getBarcode() {
-        return barcode;
-    }
-
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
-    }
 
     public boolean isActive() {
         return active;
@@ -37,14 +29,4 @@ public class PlantEntity extends BaseEntity {
     public void setActive(boolean active) {
         this.active = active;
     }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-
 }

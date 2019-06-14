@@ -1,12 +1,13 @@
 package com.minchev.plantlab.models.service;
 
-import com.minchev.plantlab.databases.entities.PlantEntity;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class LabServiceModel extends BaseServiceModel {
-
-   /*     private PlantServiceModel plant;
-    private ProductServiceModel  product;
-    private UserServiceModel  user;*/
 
     private String plantId;
     private String productId;
@@ -14,30 +15,6 @@ public class LabServiceModel extends BaseServiceModel {
     private String status;
     private String comment;
     private String quantity;
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
-    }
 
     public String getPlantId() {
         return plantId;

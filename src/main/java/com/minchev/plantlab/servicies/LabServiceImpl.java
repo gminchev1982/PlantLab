@@ -53,6 +53,7 @@ public class LabServiceImpl implements LabService {
         labServiceModel.setPlantId(plantServiceModel.getId());
         labServiceModel.setProductId(productServiceModel.getId());
 
+
         try {
             LabEntity labEntity = this.modelMapper.map(labServiceModel, LabEntity.class);
             labEntity = this.labRepository.saveAndFlush(labEntity);

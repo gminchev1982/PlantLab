@@ -188,9 +188,11 @@
     <script src="/js/http.js"></script>
     <script>
 
+
+
         $(".plant-new").on('click', (ev) => {
 
-            $("input[name=barcode]").val('')
+            $("#form-plant").trigger('reset');
             $('.alert').addClass('d-none');
 
         })
@@ -214,72 +216,26 @@
 
         $("#form-plant").on('submit', (ev) => {
             ev.preventDefault();
-            const data = {
-                barcode: $("input[name=barcode]").val()
-            };
-            http.post("/api/plants/save", data)
-                .then((data) => {
-                    const response = data.json();
-                    console.log("response", response);
-                    if (data.status === 400) {
-                        response.then(resp => {
-                            $('.alert').html(resp[0].code);
-                            $('.alert').removeClass('d-none');
-                            $('.alert').removeClass('alert-success');
-                            $('.alert').addClass('alert-danger').show();
-                        });
-                    } else {
-                        response.then(resp => {
-                            $('.alert').html(resp);
-                            $('.alert').removeClass('d-none');
-                            $('.alert').removeClass('alert-danger');
-                            $('.alert').addClass('alert-success');
-                            $("input[name=barcode]").val('')
-                        });
-                    }
-                });
+            responseNotes('plants/save', 'form-plant');
             return false;
         });
 
         $("#form-plant-edit").on('submit', (ev) => {
-
-            const form = $("#form-plant-edit").serializeArray();
-            let data = {};
-            $(form).each(function (index, obj) {
-                data[obj.name] = obj.value;
-            });
-
-
-            http.post("/api/plants/edit", data)
-                .then((data) => {
-                    const response = data.json();
-                    if (data.status === 400) {
-                        response.then(resp => {
-                            $('.alert').html(resp[0].code);
-                            $('.alert').removeClass('d-none');
-                            $('.alert').removeClass('alert-success');
-                            $('.alert').addClass('alert-danger').show();
-                        });
-                    } else {
-                        response.then(resp => {
-                            $('.alert').html(resp);
-                            $('.alert').removeClass('d-none');
-                            $('.alert').removeClass('alert-danger');
-                            $('.alert').addClass('alert-success');
-                        })
-                    }
-                });
-            ev.preventDefault();
-            return false;
+            responseNotes('plants/edit', "form-plant-edit");
+             ev.preventDefault();
+             return false;
         });
 
 
         $(".close-plant").on('click', (ev) => {
-                $("input[name=barcode]").val();
                 window.location.reload();
-
             }
         );
+
+
+
+
+
 
 
     </script>
