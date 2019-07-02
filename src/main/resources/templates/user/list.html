@@ -29,12 +29,13 @@
                 <td class="col-md-3 text-center" th:text="${user.name}"></td>
                 <td class="col-md-4 text-center" th:text="${user.username}"></td>
                 <th class="col-md-2 text-center">
-                    <img th:src="${user.image}" th:if="${user.image!=''}" class="img-thumbnail"/>
-                    <span th:if="${user.image==''}"><i  class="fas fa-user-circle fa-2x"></i></span>
+                    <img class="img-thumbnail" th:if="${user.image!=''}" th:src="${user.image}"/>
+                    <span th:if="${user.image==''}"><i class="fas fa-user-circle fa-2x"></i></span>
 
 
                 </th>
-                <td class="col-md-1 text-center"><a th:href="@{/users/edit/{id}(id=${user.id})}" <i class="fas fa-user-edit logo-blue-color "></i></td>
+                <td class="col-md-1 text-center"><a th:href="@{/users/edit/{id}(id=${user.id})}" <i
+                        class="fas fa-user-edit logo-blue-color "></i></td>
             </tr>
         </th:block>
 

@@ -1,8 +1,7 @@
-
 package com.minchev.plantlab.controllers.web;
 
-import com.minchev.plantlab.databases.entities.PlantEntity;
-import com.minchev.plantlab.databases.repositories.PlantRepository;
+import com.minchev.plantlab.database.entities.PlantEntity;
+import com.minchev.plantlab.database.repositories.PlantRepository;
 import com.minchev.plantlab.models.view.PlantListViewModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,13 +30,10 @@ public class PlantControllerTest {
 
     @Autowired
     PlantController controller;
-
-    @MockBean
-    private Pageable pageable;
-
     @MockBean
     PlantRepository mockRepository;
-
+    @MockBean
+    private Pageable pageable;
     private ArrayList<PlantEntity> plants;
 
 

@@ -1,74 +1,72 @@
+<div class="open-new-form">
+    <!-- Modal Header -->
+    <div class="modal-header">
+        <h4 class="modal-title">New Product</h4>
+        <button class="close close-plant" data-dismiss="modal" type="button">&times;</button>
+    </div>
 
+    <!-- Modal body -->
+    <div class="modal-body">
+        <div class="alert d-none">
 
+        </div>
 
-            <div class="open-new-form">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">New Product</h4>
-                <button type="button" class="close close-plant" data-dismiss="modal">&times;</button>
+        <form class="form w-100 mx-auto" id="form-product" th:action="@{/product}" th:method="post">
+
+            <div class="form-group">
+                <label class="font-weight-bold" for="name">Name</label>
+                <input class="form-control" id="name" maxlength="20" name="name" placeholder="Name..." required
+                       type="text">
             </div>
 
-            <!-- Modal body -->
-            <div class="modal-body">
-                <div class="alert d-none">
 
-                </div>
-
-                <form class="form w-100 mx-auto" th:action="@{/product}" th:method="post" id="form-product">
-
-                    <div class="form-group">
-                        <label for="name" class="font-weight-bold">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Name..." name="name" required maxlength="20">
-                    </div>
-
-
-
-                    <div class="button-holder">
-                        <button type="submit" class="btn btn-dark save-button w-100">Save</button>
-                        <button type="submit" class="btn btn-dark edit-button w-100 d-none">EDIT</button>
-                    </div>
-                </form>
+            <div class="button-holder">
+                <button class="btn btn-dark save-button w-100" type="submit">Save</button>
+                <button class="btn btn-dark edit-button w-100 d-none" type="submit">EDIT</button>
             </div>
-            </th:block>
+        </form>
+    </div>
+    </th:block>
+</div>
+
+<div class="open-edit-form d-none">
+    <!-- Modal Header -->
+    <div class="modal-header">
+        <h4 class="modal-title">Edit Product</h4>
+        <button class="close close-plant" data-dismiss="modal" type="button">&times;</button>
+    </div>
+
+    <!-- Modal body -->
+    <div class="modal-body">
+        <div class="alert d-none">
+
+        </div>
+
+        <form class="form w-100 mx-auto" id="form-product-edit" th:action="@{/plants/new}" th:method="post">
+
+            <div class="form-group">
+                <label class="font-weight-bold" for="name">name</label>
+                <input class="form-control" id="name" maxlength="20" name="name" placeholder="name..." required
+                       type="text">
             </div>
 
-            <div class="open-edit-form d-none" >
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Edit Product</h4>
-                    <button type="button" class="close close-plant" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div class="alert d-none">
-
-                    </div>
-
-                    <form class="form w-100 mx-auto" th:action="@{/plants/new}" th:method="post"  id="form-product-edit">
-
-                        <div class="form-group">
-                            <label for="name" class="font-weight-bold">name</label>
-                            <input type="text" class="form-control" id="name" placeholder="name..." name="name" required maxlength="20">
-                        </div>
-
-                        <div class="form-group edit-field">
-                            <input type="hidden" class="form-control" id="nameold"  name="nameold" required maxlength="20">
-                            <input type="hidden" class="form-control" id="id"  name="id" >
-                            <label for="active" class="font-weight-bold">Status</label>
-                            <select name="active" id="active">
-                                <option value="true">Active</option>
-                                <option value="false">Delete</option>
-                            </select>
-                        </div>
-
-                        <div class="button-holder">
-                            <button type="submit" class="btn btn-dark save-button w-100">Edit</button>
-
-                        </div>
-                    </form>
-                </div>
+            <div class="form-group edit-field">
+                <input class="form-control" id="nameold" maxlength="20" name="nameold" required type="hidden">
+                <input class="form-control" id="id" name="id" type="hidden">
+                <label class="font-weight-bold" for="active">Status</label>
+                <select id="active" name="active">
+                    <option value="true">Active</option>
+                    <option value="false">Delete</option>
+                </select>
             </div>
+
+            <div class="button-holder">
+                <button class="btn btn-dark save-button w-100" type="submit">Edit</button>
+
+            </div>
+        </form>
+    </div>
+</div>
 
 
 

@@ -1,13 +1,13 @@
 package com.minchev.plantlab.validations.forms;
 
-import com.minchev.plantlab.databases.repositories.UserRepository;
+import com.minchev.plantlab.database.repositories.UserRepository;
 import com.minchev.plantlab.models.forms.UserRegisterForm;
 import com.minchev.plantlab.validations.constants.ValidationConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 
 @Validator
-public class UserRegisterValidator  implements org.springframework.validation.Validator {
+public class UserRegisterValidator implements org.springframework.validation.Validator {
     private final UserRepository userRepository;
 
     @Autowired
@@ -24,7 +24,7 @@ public class UserRegisterValidator  implements org.springframework.validation.Va
     public void validate(Object o, Errors errors) {
         UserRegisterForm UserRegisterForm = (UserRegisterForm) o;
 
-        if (UserRegisterForm.getName()==null || UserRegisterForm.getName()=="" || UserRegisterForm.getName().isEmpty()) {
+        if (UserRegisterForm.getName() == null || UserRegisterForm.getName() == "" || UserRegisterForm.getName().isEmpty()) {
 
             errors.rejectValue(
                     "name",
@@ -50,15 +50,25 @@ public class UserRegisterValidator  implements org.springframework.validation.Va
             );
         }
 
-        if (!UserRegisterForm.getPassword().equals(UserRegisterForm.getConfirmPassword())) {
+
+        if (UserRegisterForm.getPassword().isEmpty()) {
             errors.rejectValue(
                     "password",
+                    ValidationConstants.PASSWORDS_EMPTY,
+                    ValidationConstants.PASSWORDS_EMPTY
+            );
+        }
+
+
+        if (!UserRegisterForm.getPassword().equals(UserRegisterForm.getConfirmPassword())) {
+            errors.rejectValue(
+                    "confirmPassword",
                     ValidationConstants.PASSWORDS_DO_NOT_MATCH,
                     ValidationConstants.PASSWORDS_DO_NOT_MATCH
             );
         }
 
-        if (UserRegisterForm.getRole()==null || UserRegisterForm.getRole()=="" || UserRegisterForm.getRole().isEmpty()) {
+        if (UserRegisterForm.getRole() == null || UserRegisterForm.getRole() == "" || UserRegisterForm.getRole().isEmpty()) {
 
             errors.rejectValue(
                     "role",

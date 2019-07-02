@@ -15,8 +15,8 @@
             <h1 class="text-left text-dark">Plants</h1>
         </div>
         <div class="col-md-11 text-right">
-            <button type="button" class="btn btn-primary text-right plant-new" data-toggle="modal"
-                    data-target="#myModal">
+            <button class="btn btn-primary text-right plant-new" data-target="#myModal" data-toggle="modal"
+                    type="button">
                 New
             </button>
         </div>
@@ -42,21 +42,23 @@
             <th class="col-md-1 text-center th-sm">&nbsp;</th>
             <th class="col-md-2 text-center th-sm">#</th>
             <th class="col-md-3 text-center th-sm">#</th>
-            <th class="col-md-5 text-center">Barcode <a th:href="@{/plants/all(sort='barcode,desc')}"
-                                                        th:class="${#strings.equals(sort, 'barcode,desc')? 'active':''}"><i
+            <th class="col-md-5 text-center">Barcode <a th:class="${#strings.equals(sort, 'barcode,desc')? 'active':''}"
+                                                        th:href="@{/plants/all(sort='barcode,desc')}"><i
                     class="fas fa-angle-up" style="font-size: 1.4rem;"></i></a><a
-                    th:href="@{/plants/all(sort='barcode,asc')}"
-                    th:class="${#strings.equals(sort, 'barcode,asc')? 'active':''}"><i class="fas fa-angle-down"
+                    th:class="${#strings.equals(sort, 'barcode,asc')? 'active':''}"
+                    th:href="@{/plants/all(sort='barcode,asc')}"><i class="fas fa-angle-down"
                                                                                        style="font-size: 1.4rem;"></i></a>
             </th>
             <th class="col-md-1 text-center">&nbsp;-</th>
         </tr>
         </thead>
         <tbody>
-        <th:block th:if="${plantAll!=null}" th:each="plant, iter : ${plantAll}">
+        <th:block th:each="plant, iter : ${plantAll}" th:if="${plantAll!=null}">
             <tr class="row mx-auto">
-                <td  th:if="${plant.active==true}" class="col-md-1 text-center" title="Active"><i class="fas fa-check-circle color-green"></i></td>
-                <td  th:if="${plant.active==false}" class="col-md-1 text-center" title="Deleted"><i class="fas fa-minus-circle color-red"></i></td>
+                <td class="col-md-1 text-center" th:if="${plant.active==true}" title="Active"><i
+                        class="fas fa-check-circle color-green"></i></td>
+                <td class="col-md-1 text-center" th:if="${plant.active==false}" title="Deleted"><i
+                        class="fas fa-minus-circle color-red"></i></td>
                 <td class="col-md-2 text-center" th:text="${page>1}? ${iter.count}+ ${page} : ${iter.count}"></td>
                 <td class="col-md-3 text-center" th:text="${plant.dateAt}"></td>
                 <td class="col-md-5 text-center" th:text="${plant.barcode}"></td>
@@ -73,8 +75,8 @@
             <td class="col-md-12 text-center" th:if="${pageNumbers!=null}">
                 <nav aria-label="Page navigation example w-75 mx-auto">
                     <ul class="pagination">
-                        <li th:each="pageNumber : ${pageNumbers}"
-                            th:class="(${pageNumber==page} ? 'page-item active':'page-item')">
+                        <li th:class="(${pageNumber==page} ? 'page-item active':'page-item')"
+                            th:each="pageNumber : ${pageNumbers}">
                             <a class="page-link" th:href="@{/plants/all(page=${pageNumber},sort=${sort})}"
                                th:text=${pageNumber}></a>
                         </li>
@@ -97,7 +99,7 @@
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">New Plant</h4>
-                    <button type="button" class="close close-plant" data-dismiss="modal">&times;</button>
+                    <button class="close close-plant" data-dismiss="modal" type="button">&times;</button>
                 </div>
 
                 <!-- Modal body -->
@@ -106,25 +108,25 @@
 
                     </div>
 
-                    <form class="form w-100 mx-auto" th:action="@{/plants/new}" th:method="post" id="form-plant">
+                    <form class="form w-100 mx-auto" id="form-plant" th:action="@{/plants/new}" th:method="post">
 
                         <div class="form-group">
-                            <label for="barcode" class="font-weight-bold">Barcode</label>
-                            <input type="text" class="form-control" id="barcode" placeholder="barcode..." name="barcode"
-                                   required maxlength="20">
+                            <label class="font-weight-bold" for="barcode">Barcode</label>
+                            <input class="form-control" id="barcode" maxlength="20" name="barcode" placeholder="barcode..."
+                                   required type="text">
                         </div>
 
 
                         <div class="button-holder">
-                            <button type="submit" class="btn btn-dark save-button w-100">Save</button>
-                            <button type="submit" class="btn btn-dark edit-button w-100 d-none">EDIT</button>
+                            <button class="btn btn-dark save-button w-100" type="submit">Save</button>
+                            <button class="btn btn-dark edit-button w-100 d-none" type="submit">EDIT</button>
                         </div>
                     </form>
                 </div>
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger close-plant" data-dismiss="modal">Close</button>
+                    <button class="btn btn-danger close-plant" data-dismiss="modal" type="button">Close</button>
                 </div>
 
             </div>
@@ -140,7 +142,7 @@
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">Edit Plant</h4>
-                    <button type="button" class="close close-plant" data-dismiss="modal">&times;</button>
+                    <button class="close close-plant" data-dismiss="modal" type="button">&times;</button>
                 </div>
 
                 <!-- Modal body -->
@@ -149,27 +151,27 @@
 
                     </div>
 
-                    <form class="form w-100 mx-auto" th:action="@{/plants/new}" th:method="post" id="form-plant-edit">
+                    <form class="form w-100 mx-auto" id="form-plant-edit" th:action="@{/plants/new}" th:method="post">
 
                         <div class="form-group">
-                            <label for="barcode" class="font-weight-bold">Barcode</label>
-                            <input type="text" class="form-control" id="barcode" placeholder="barcode..." name="barcode"
-                                   required maxlength="20">
+                            <label class="font-weight-bold" for="barcode">Barcode</label>
+                            <input class="form-control" id="barcode" maxlength="20" name="barcode" placeholder="barcode..."
+                                   required type="text">
                         </div>
 
                         <div class="form-group edit-field">
-                            <input type="hidden" class="form-control" id="barcoderold" name="barcodeold" required
-                                   maxlength="20">
-                            <input type="hidden" class="form-control" id="id" name="id">
-                            <label for="active" class="font-weight-bold">Status</label>
-                            <select name="active" id="active">
+                            <input class="form-control" id="barcoderold" maxlength="20" name="barcodeold" required
+                                   type="hidden">
+                            <input class="form-control" id="id" name="id" type="hidden">
+                            <label class="font-weight-bold" for="active">Status</label>
+                            <select id="active" name="active">
                                 <option value="true">Active</option>
                                 <option value="false">Delete</option>
                             </select>
                         </div>
 
                         <div class="button-holder">
-                            <button type="submit" class="btn btn-dark save-button w-100">Edit</button>
+                            <button class="btn btn-dark save-button w-100" type="submit">Edit</button>
 
                         </div>
                     </form>
@@ -177,7 +179,7 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger close-plant" data-dismiss="modal">Close</button>
+                    <button class="btn btn-danger close-plant" data-dismiss="modal" type="button">Close</button>
                 </div>
 
             </div>
@@ -189,7 +191,6 @@
     <script>
 
 
-
         $(".plant-new").on('click', (ev) => {
 
             $("#form-plant").trigger('reset');
@@ -198,11 +199,14 @@
         })
 
         $(".fa-user-edit").on('click', (ev) => {
-            const id = $(ev.target).attr("pl-id");
-            $('#myModalEdit').modal('show');
 
+            let id = $(ev.target).attr("pl-id");
+           //id =  223222;
+            $('#myModalEdit').modal('show');
+            $("#form-plant-edit").show();
             http.get("/api/plants/" + id).then((data) => {
                 const response = data.json();
+                console.log(response);
                 if (data.status === 200) {
                     response.then(resp => {
                         $("input[name=barcodeold]").val(resp.barcode);
@@ -210,7 +214,10 @@
                         $("input[name=id]").val(resp.id);
                         $("select[name=active]").val(resp.active);
                     });
+                } else {
+                    responseNotFound("#form-plant-edit", response);
                 }
+
             });
         })
 
@@ -222,8 +229,8 @@
 
         $("#form-plant-edit").on('submit', (ev) => {
             responseNotes('plants/edit', "form-plant-edit");
-             ev.preventDefault();
-             return false;
+            ev.preventDefault();
+            return false;
         });
 
 
@@ -231,11 +238,6 @@
                 window.location.reload();
             }
         );
-
-
-
-
-
 
 
     </script>

@@ -16,8 +16,8 @@
         </div>
         <div class="col-md-11 text-right">
 
-            <button type="button" class="btn btn-primary text-right product-new" data-toggle="modal"
-                    data-target="#myModal">
+            <button class="btn btn-primary text-right product-new" data-target="#myModal" data-toggle="modal"
+                    type="button">
                 New
             </button>
 
@@ -39,13 +39,13 @@
             <th:block th:each="lab, iter : ${labs}">
                 <tr class="row mx-auto">
                     <td class="col-md-1 text-center th-sm">
-                        <i th:if="${lab.comment!=''}" class="fas fa-comment color-blue"></i>
+                        <i class="fas fa-comment color-blue" th:if="${lab.comment!=''}"></i>
                     </td>
                     <td class="col-md-1 text-center th-sm">
 
-                        <span th:if="${lab.status=='Dead'}"  class="color-red" th:text="${lab.status}"></span>
-                        <span th:if="${lab.status=='Ok'}"  class="color-green" th:text="${lab.status}"></span>
-                        <span th:if="${lab.status=='Ill'}"   class="color-yellow" th:text="${lab.status}"></span>
+                        <span class="color-red" th:if="${lab.status=='Dead'}" th:text="${lab.status}"></span>
+                        <span class="color-green" th:if="${lab.status=='Ok'}" th:text="${lab.status}"></span>
+                        <span class="color-yellow" th:if="${lab.status=='Ill'}" th:text="${lab.status}"></span>
 
                     </td>
                     <td class="col-md-1 text-center" th:text="${iter.count}"></td>
@@ -73,7 +73,7 @@
                 <div th:insert="labs/forms"></div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger close-plant" data-dismiss="modal">Close</button>
+                    <button class="btn btn-danger close-plant" data-dismiss="modal" type="button">Close</button>
                 </div>
 
             </div>

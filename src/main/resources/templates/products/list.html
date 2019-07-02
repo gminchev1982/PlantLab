@@ -15,58 +15,58 @@
             <h1 class="text-left text-dark">Products</h1>
         </div>
         <div class="col-md-11 text-right">
-            <button type="button" class="btn btn-primary text-right product-new" data-toggle="modal"
-                    data-target="#myModal">
+            <button class="btn btn-primary text-right product-new" data-target="#myModal" data-toggle="modal"
+                    type="button">
                 New
             </button>
         </div>
 
     </div>
-        <table class="table  w-75 mx-auto">
-            <thead>
+    <table class="table  w-75 mx-auto">
+        <thead>
+        <tr class="row mx-auto">
+            <th class="col-md-2 text-center th-sm">#</th>
+            <th class="col-md-9 text-center">Name <a th:class="${#strings.equals(sort, 'name,desc')? 'active':''}"
+                                                     th:href="@{/products(sort='name,desc')}"><i
+                    class="fas fa-angle-up" style="font-size: 1.4rem;"></i></a><a
+                    th:class="${#strings.equals(sort, 'name,asc')? 'active':''}"
+                    th:href="@{/products(sort='name,asc')}"><i class="fas fa-angle-down"
+                                                                                    style="font-size: 1.4rem;"></i></a>
+            </th>
+            <th class="col-md-1 text-center">&nbsp;-</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="product, iter : ${products}">
             <tr class="row mx-auto">
-                <th class="col-md-2 text-center th-sm">#</th>
-                <th class="col-md-9 text-center">Name <a th:href="@{/products(sort='name,desc')}"
-                                                         th:class="${#strings.equals(sort, 'name,desc')? 'active':''}"><i
-                        class="fas fa-angle-up" style="font-size: 1.4rem;"></i></a><a
-                        th:href="@{/products(sort='name,asc')}"
-                        th:class="${#strings.equals(sort, 'name,asc')? 'active':''}"><i class="fas fa-angle-down"
-                                                                                        style="font-size: 1.4rem;"></i></a>
-                </th>
-                <th class="col-md-1 text-center">&nbsp;-</th>
+                <td class="col-md-2 text-center" th:text="${page>1}? ${iter.count}+ ${page} : ${iter.count}"></td>
+                <td class="col-md-9 text-center" th:text="${product.name}"></td>
+                <td class="col-md-1 text-center"><a href="#"><i class="fas fa-user-edit logo-blue-color"
+                                                                th:attr="pr-id=${product.id}"></i></td>
             </tr>
-            </thead>
-            <tbody>
-            <th:block th:each="product, iter : ${products}">
-                <tr class="row mx-auto">
-                    <td class="col-md-2 text-center" th:text="${page>1}? ${iter.count}+ ${page} : ${iter.count}"></td>
-                    <td class="col-md-9 text-center" th:text="${product.name}"></td>
-                    <td class="col-md-1 text-center"><a href="#"><i class="fas fa-user-edit logo-blue-color"
-                                                                    th:attr="pr-id=${product.id}"></i></td>
-                </tr>
-            </th:block>
-            <!--<tr th:if="${products.empty}">
-                <td colspan="2"> List is empty!</td>
-            </tr>-->
+        </th:block>
+        <!--<tr th:if="${products.empty}">
+            <td colspan="2"> List is empty!</td>
+        </tr>-->
 
 
-            <tr class="row mx-auto">
-                <td class="col-md-12 text-center" th:if="${pageNumbers}">
-                    <nav aria-label="Page navigation example w-75 mx-auto">
-                        <ul class="pagination">
-                            <li th:each="pageNumber : ${pageNumbers}"
-                                th:class="(${pageNumber==page} ? 'page-item active':'page-item')"><a class="page-link"
-                                                                                                     th:href="@{/products(page=${pageNumber},sort=${sort})}"
-                                                                                                     th:text=${pageNumber}></a>
-                            </li>
-                        </ul>
-                    </nav>
+        <tr class="row mx-auto">
+            <td class="col-md-12 text-center" th:if="${pageNumbers}">
+                <nav aria-label="Page navigation example w-75 mx-auto">
+                    <ul class="pagination">
+                        <li th:class="(${pageNumber==page} ? 'page-item active':'page-item')"
+                            th:each="pageNumber : ${pageNumbers}"><a class="page-link"
+                                                                                                 th:href="@{/products(page=${pageNumber},sort=${sort})}"
+                                                                                                 th:text=${pageNumber}></a>
+                        </li>
+                    </ul>
+                </nav>
 
-                </td>
+            </td>
 
-            </tr>
-            </tbody>
-        </table>
+        </tr>
+        </tbody>
+    </table>
 
     <!-- The Modal -->
     <div class="modal" id="myModal">
@@ -76,7 +76,7 @@
                 <div th:insert="products/forms"></div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger close-plant" data-dismiss="modal">Close</button>
+                    <button class="btn btn-danger close-plant" data-dismiss="modal" type="button">Close</button>
                 </div>
 
             </div>
@@ -98,17 +98,26 @@
             $('.open-edit-form').removeClass('d-none');
             $('.open-new-form').addClass('d-none');
             $('#myModal').modal('show');
-
+            $("#form-product-edit").show();
             http.get("/api/products/" + id).then((data) => {
                 const response = data.json();
+
+
                 if (data.status === 200) {
                     response.then(resp => {
+
+                        console.log("resp", resp);
+
                         $("input[name=nameold]").val(resp.name);
                         $("input[name=name]").val(resp.name);
                         $("input[name=id]").val(resp.id);
                         $("select[name=active]").val(resp.active);
                     });
+                }else {
+                    responseNotFound("#form-product-edit", response);
+
                 }
+
             });
         })
 
@@ -126,7 +135,7 @@
             return false;
         });
 
-        $(".close-plant").on('click',(ev)=>{
+        $(".close-plant").on('click', (ev) => {
                 $("input[name=name]").val();
                 window.location.reload();
             }

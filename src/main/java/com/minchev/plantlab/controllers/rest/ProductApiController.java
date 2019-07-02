@@ -1,10 +1,11 @@
 package com.minchev.plantlab.controllers.rest;
 
+import com.minchev.plantlab.errors.ProductNotFoundException;
 import com.minchev.plantlab.models.forms.ProductEditForm;
 import com.minchev.plantlab.models.forms.ProductSaveForm;
 import com.minchev.plantlab.models.service.ProductServiceEditModel;
 import com.minchev.plantlab.models.service.ProductServiceModel;
-import com.minchev.plantlab.servicies.ProductService;
+import com.minchev.plantlab.servicies.api.ProductService;
 import com.minchev.plantlab.validations.forms.ProductEditValidator;
 import com.minchev.plantlab.validations.forms.ProductSaveValidator;
 import org.modelmapper.ModelMapper;
@@ -38,7 +39,7 @@ public class ProductApiController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ResponseEntity  save(@RequestBody ProductSaveForm productSaveForm, Errors errors) {
+    public ResponseEntity save(@RequestBody ProductSaveForm productSaveForm, Errors errors) {
 
         this.productSaveValidator.validate(productSaveForm, errors);
         if (errors.hasErrors()) {
@@ -52,20 +53,19 @@ public class ProductApiController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getProduct(@PathVariable String id) {
-
-        return ResponseEntity.status(HttpStatus.OK).body(this.modelMapper.map(this.productService.findById(id), ProductServiceModel.class));
+    public ResponseEntity<?> getProduct(@PathVariable String id) throws ProductNotFoundException {
+        return ResponseEntity.status(HttpStatus.OK).body(this.modelMapper.map(this.productService.findById(id), ProductServiceEditModel.class));
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public ResponseEntity<?> edit(@RequestBody ProductEditForm productForm, Errors errors) {
+    public ResponseEntity<?> edit(@RequestBody ProductEditForm productForm, Errors errors) throws ProductNotFoundException {
 
         this.productEditValidator.validate(productForm, errors);
         if (errors.hasErrors()) {
             return ResponseEntity.status(400).body(errors.getAllErrors());
         }
 
-        this.productService.edit(this.modelMapper.map(productForm, ProductServiceEditModel.class));
+        this.productService.save(this.modelMapper.map(productForm, ProductServiceModel.class));
         return ResponseEntity.status(HttpStatus.OK).body(PRODUCT_DONE);
     }
 }

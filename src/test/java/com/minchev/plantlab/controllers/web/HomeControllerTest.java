@@ -21,7 +21,7 @@ public class HomeControllerTest {
     private MockMvc mockMvc;
 
     @Test
-     public void index_RerurnCorrectView() throws Exception{
+    public void index_RerurnCorrectView() throws Exception {
         this.mockMvc
                 .perform(get("/"))
                 .andExpect(view().name("index"));
@@ -30,7 +30,7 @@ public class HomeControllerTest {
 
     @Test
     @WithMockUser
-    public void home_RerurnCorrectView() throws Exception{
+    public void home_RerurnCorrectView() throws Exception {
         this.mockMvc
                 .perform(get("/home"))
                 .andExpect(view().name("home"));

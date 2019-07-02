@@ -1,16 +1,17 @@
 package com.minchev.plantlab.validations.forms;
 
-import com.minchev.plantlab.databases.repositories.PlantRepository;
+import com.minchev.plantlab.database.repositories.PlantRepository;
 import com.minchev.plantlab.models.forms.PlantSaveForm;
 import com.minchev.plantlab.validations.constants.ValidationConstants;
 import org.springframework.validation.Errors;
+
 @Validator
-public class PlantSaveValidator implements org.springframework.validation.Validator  {
+public class PlantSaveValidator implements org.springframework.validation.Validator {
 
     private final PlantRepository plantRepository;
 
     public PlantSaveValidator(PlantRepository plantRepository) {
-        this.plantRepository=plantRepository;
+        this.plantRepository = plantRepository;
     }
 
     @Override
@@ -21,7 +22,7 @@ public class PlantSaveValidator implements org.springframework.validation.Valida
     @Override
     public void validate(Object o, Errors errors) {
         PlantSaveForm PlantSaveForm = (PlantSaveForm) o;
-        if (PlantSaveForm.getBarcode()==null || PlantSaveForm.getBarcode()=="" || PlantSaveForm.getBarcode().isEmpty()) {
+        if (PlantSaveForm.getBarcode() == null || PlantSaveForm.getBarcode() == "" || PlantSaveForm.getBarcode().isEmpty()) {
 
             errors.rejectValue(
                     "barcode",
@@ -30,7 +31,7 @@ public class PlantSaveValidator implements org.springframework.validation.Valida
             );
         }
 
-        if ( !PlantSaveForm.getBarcode().isEmpty() && (PlantSaveForm.getBarcode().length() < 20 || PlantSaveForm.getBarcode().length() > 20)) {
+        if (!PlantSaveForm.getBarcode().isEmpty() && (PlantSaveForm.getBarcode().length() < 20 || PlantSaveForm.getBarcode().length() > 20)) {
             errors.rejectValue(
                     "barcode",
                     ValidationConstants.BARCODE_LENGTH,

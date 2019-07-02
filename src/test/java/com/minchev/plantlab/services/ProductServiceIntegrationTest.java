@@ -1,9 +1,7 @@
 package com.minchev.plantlab.services;
 
-import com.minchev.plantlab.databases.entities.ProductEntity;
-import com.minchev.plantlab.databases.repositories.ProductRepository;
-import com.minchev.plantlab.models.service.ProductServiceModel;
-import com.minchev.plantlab.servicies.ProductService;
+import com.minchev.plantlab.database.repositories.ProductRepository;
+import com.minchev.plantlab.servicies.api.ProductService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -48,7 +43,6 @@ public class ProductServiceIntegrationTest {
         verify(mockProductRepository)
                 .save(any());
     }*/
-
 
 
 }

@@ -1,7 +1,7 @@
 package com.minchev.plantlab.controllers.web;
 
 import com.minchev.plantlab.interceptors.PageTitle;
-import com.minchev.plantlab.servicies.ProductService;
+import com.minchev.plantlab.servicies.api.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class ProductController extends  BaseController {
+public class ProductController extends BaseController {
 
     private final ProductService productService;
+
     @Autowired
     public ProductController(ProductService productService) {
-        this.productService  = productService;
+        this.productService = productService;
     }
 
     @GetMapping("/products")

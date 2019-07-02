@@ -1,11 +1,11 @@
 package com.minchev.plantlab.controllers.rest;
 
 import com.minchev.plantlab.components.CommonUtils;
+import com.minchev.plantlab.errors.PlantNotFoundException;
 import com.minchev.plantlab.models.forms.PlantEditForm;
 import com.minchev.plantlab.models.forms.PlantSaveForm;
-import com.minchev.plantlab.models.service.PlantServiceEditModel;
 import com.minchev.plantlab.models.service.PlantServiceModel;
-import com.minchev.plantlab.servicies.PlantService;
+import com.minchev.plantlab.servicies.api.PlantService;
 import com.minchev.plantlab.validations.forms.PlantEditValidator;
 import com.minchev.plantlab.validations.forms.PlantSaveValidator;
 import org.modelmapper.ModelMapper;
@@ -27,10 +27,10 @@ public class PlantApiController {
     private final CommonUtils commonUtils;
 
     public PlantApiController(PlantSaveValidator plantSaveValidator,
-                                PlantEditValidator plantEditValidator,
-                                PlantService plantService,
-                                CommonUtils commonUtils,
-                                ModelMapper modelMapper) {
+                              PlantEditValidator plantEditValidator,
+                              PlantService plantService,
+                              CommonUtils commonUtils,
+                              ModelMapper modelMapper) {
         this.plantSaveValidator = plantSaveValidator;
         this.plantService = plantService;
         this.commonUtils = commonUtils;
@@ -42,15 +42,16 @@ public class PlantApiController {
     public ResponseEntity save(@RequestBody PlantSaveForm plantForm, Errors errors) {
         this.plantSaveValidator.validate(plantForm, errors);
         if (errors.hasErrors()) {
-          return  ResponseEntity.status(400).body(errors.getAllErrors());
+            return ResponseEntity.status(400).body(errors.getAllErrors());
         }
 
-        Boolean result  = this.plantService.save(this.modelMapper.map(plantForm, PlantServiceModel.class));
+        Boolean result = this.plantService.save(this.modelMapper.map(plantForm, PlantServiceModel.class));
         return commonUtils.getApiResult(result, BARCODE_DONE);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getPlant(@PathVariable String id) {
+    public ResponseEntity<?> getPlant(@PathVariable String id) throws PlantNotFoundException {
+
         return ResponseEntity.status(HttpStatus.OK).body(this.modelMapper.map(this.plantService.findPlantById(id), PlantServiceModel.class));
     }
 
@@ -62,11 +63,9 @@ public class PlantApiController {
             return ResponseEntity.status(400).body(errors.getAllErrors());
         }
 
-        Boolean edit = this.plantService.edit(this.modelMapper.map(plantForm, PlantServiceEditModel.class));
+        Boolean edit = this.plantService.save(this.modelMapper.map(plantForm, PlantServiceModel.class));
         return commonUtils.getApiResult(edit, BARCODE_DONE);
     }
-
-
 
 
 }

@@ -28,7 +28,7 @@ public class MappingsInitializer {
 
         scanner.addIncludeFilter(new AssignableTypeFilter(IHaveCustomMappings.class));
 
-       var candidates = scanner.findCandidateComponents(MappingsInitializer.ROOT_PACKAGE_NAME);
+        var candidates = scanner.findCandidateComponents(MappingsInitializer.ROOT_PACKAGE_NAME);
 
         return candidates
                 .stream()

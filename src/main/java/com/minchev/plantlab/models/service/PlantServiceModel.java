@@ -1,9 +1,15 @@
 package com.minchev.plantlab.models.service;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
-public class PlantServiceModel  extends BaseServiceModel {
+@Getter
+@Setter
+@NoArgsConstructor
+public class PlantServiceModel extends BaseServiceModel {
     private String barcode;
     private String dateAt;
     private String active;

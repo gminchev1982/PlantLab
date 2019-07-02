@@ -4,8 +4,8 @@ package com.minchev.plantlab.controllers.web;
 import com.minchev.plantlab.models.forms.UserRegisterForm;
 import com.minchev.plantlab.models.service.UserServiceModel;
 import com.minchev.plantlab.models.view.UserAllViewModel;
-import com.minchev.plantlab.servicies.RoleService;
-import com.minchev.plantlab.servicies.UserService;
+import com.minchev.plantlab.servicies.api.RoleService;
+import com.minchev.plantlab.servicies.api.UserService;
 import com.minchev.plantlab.validations.constants.ValidationConstants;
 import com.minchev.plantlab.validations.forms.UserEditValidator;
 import com.minchev.plantlab.validations.forms.UserRegisterValidator;
@@ -30,6 +30,7 @@ public class UserController extends BaseController {
     private final UserRegisterValidator userRegisterValidator;
     private final RoleService roleService;
     private final UserEditValidator userEditValidator;
+    Boolean result;
 
     @Autowired
     public UserController(UserService userService, RoleService roleService, ModelMapper modelMapper,
@@ -40,13 +41,12 @@ public class UserController extends BaseController {
         this.userRegisterValidator = userRegisterValidator;
         this.userEditValidator = userEditValidator;
         this.roleService = roleService;
-        
-      //  this.userEditValidator = userEditValidator;
+
+        //  this.userEditValidator = userEditValidator;
     }
+
     @GetMapping("/register")
-    //@PreAuthorize("hasRole('ROLE_ROOT')")
-    @PreAuthorize("isAnonymous()")
-    //@PageTitle("Register")
+   @PreAuthorize("hasRole('ROLE_ROOT')")
     public ModelAndView register(ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model) {
         modelAndView.addObject("model", model);
         modelAndView.addObject("roles", roleService.findAllRoles());
@@ -54,11 +54,9 @@ public class UserController extends BaseController {
     }
 
 
-
-
     @PostMapping("/register")
-    //@PreAuthorize("hasRole('ROLE_ROOT')")
-    @PreAuthorize("isAnonymous()")
+    @PreAuthorize("hasRole('ROLE_ROOT')")
+   // @PreAuthorize("isAnonymous()")
     public ModelAndView registerConfirm(ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model, BindingResult bindingResult) throws IOException {
         this.userRegisterValidator.validate(model, bindingResult);
 
@@ -72,7 +70,11 @@ public class UserController extends BaseController {
         }
 
         UserServiceModel userServiceModel = this.modelMapper.map(model, UserServiceModel.class);
-        this.userService.registerUser(userServiceModel);
+        Boolean result = this.userService.save(userServiceModel);
+        if (!result) {
+            return view("user/register", modelAndView);
+        }
+
 
         return redirect("/users/all");
     }
@@ -82,33 +84,15 @@ public class UserController extends BaseController {
     @PreAuthorize("isAnonymous()")
     //PageTitle("Login")
     public ModelAndView login() {
-
-
-
-        //model.addAttribute("username", name);
-
         return view("user/login");
     }
-
-    @PostMapping("/login")
-    @PreAuthorize("isAnonymous()")
-    //PageTitle("Login")
-    public ModelAndView loginPOST() {
-
-        System.out.println("Ihuuu");;
-        //model.addAttribute("username", name);
-
-        return view("user/login");
-    }
-
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_ROOT')")
-   // @PageTitle("All Users")
     public ModelAndView allUsers(ModelAndView modelAndView) {
         List<UserAllViewModel> users = this.userService.findAllUsers()
                 .stream()
-                .map(u ->  this.modelMapper.map(u, UserAllViewModel.class))
+                .map(u -> this.modelMapper.map(u, UserAllViewModel.class))
                 .collect(Collectors.toList());
 
         modelAndView.addObject("users", users);
@@ -119,7 +103,7 @@ public class UserController extends BaseController {
     @GetMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_ROOT')")
     //@PageTitle("Edit Category")
-        public ModelAndView editUser(@PathVariable String id, ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model) {
+    public ModelAndView editUser(@PathVariable String id, ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model) {
         model = this.modelMapper.map(this.userService.findUserById(id), UserRegisterForm.class);
         model.setPassword(null);
         modelAndView.addObject("userId", id);
@@ -140,17 +124,20 @@ public class UserController extends BaseController {
             modelAndView.addObject("roles", roleService.findAllRoles());
             return view("/user/edit", modelAndView);
         }
-
         UserServiceModel userServiceModel = this.modelMapper.map(model, UserServiceModel.class);
         userServiceModel.setUsername(principal.getName());
-        this.userService.editUserProfile(userServiceModel);
+        try {
+            this.userService.edit(userServiceModel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return redirect("/users/all");
     }
 
     @GetMapping("/profile")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView profile (ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model, Principal principal) {
+    public ModelAndView profile(ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model, Principal principal) {
 
         model = this.modelMapper.map(this.userService.findUserByUserName(principal.getName()), UserRegisterForm.class);
         model.setPassword(null);
@@ -162,7 +149,7 @@ public class UserController extends BaseController {
 
     @PostMapping("/profile")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView profile (ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model, Principal principal,  BindingResult bindingResult) {
+    public ModelAndView profile(ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model, Principal principal, BindingResult bindingResult) {
         this.userEditValidator.validate(model, bindingResult);
         if (bindingResult.hasErrors()) {
             model.setPassword(null);
@@ -174,31 +161,28 @@ public class UserController extends BaseController {
 
         UserServiceModel userServiceModel = this.modelMapper.map(model, UserServiceModel.class);
         userServiceModel.setUsername(principal.getName());
-        boolean result = this.userService.editUserProfile(userServiceModel);
-        this.setMassage (modelAndView, result);
 
-        return view("user/profile", modelAndView);
+        try {
+            result = this.userService.edit(userServiceModel);
+            this.setMassage(modelAndView, result);
+            return view("user/profile", modelAndView);
+        } catch (IOException e) {
+
+            this.setMassage(modelAndView, false);
+            return view("user/profile", modelAndView);
+
+
+        }
     }
 
 
-    public void setMassage (ModelAndView modelAndView, boolean result) {
-        if (result==true) {
+    public void setMassage(ModelAndView modelAndView, boolean result) {
+        if (result == true) {
             modelAndView.addObject("message", ValidationConstants.USERNAME_EDIT);
             modelAndView.addObject("flag", true);
-        }
-        else {
+        } else {
             modelAndView.addObject("message", ValidationConstants.USERNAME_EDIT_WRONG);
             modelAndView.addObject("flag", false);
         }
     }
-
-  /* @GetMapping("/logout")
-    @PreAuthorize("isAnonymous()")
-    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return "redirect:/users/login";
-    }*/
 }

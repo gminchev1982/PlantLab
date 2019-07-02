@@ -7,6 +7,7 @@ public class PlantSaveForm {
 
     public PlantSaveForm() {
     }
+
     public String getBarcode() {
         return barcode;
     }

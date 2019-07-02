@@ -15,7 +15,10 @@ import java.lang.annotation.Target;
 public @interface ValidateEnum {
 
     String message() default "Creator should be either \"Corp\" or \"corp\"";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
+
     Class<? extends Enum<?>> targetClassType();
 }

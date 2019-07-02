@@ -18,8 +18,8 @@ const http = (function () {
             .then(response => response)
             .catch(er => console.log("err", er));
     };
-    const post = (url, body) =>send(url, 'POST', body);
-    const get = (url) =>send(url, 'GET', null);
+    const post = (url, body) => send(url, 'POST', body);
+    const get = (url) => send(url, 'GET', null);
 
     return {
         send,
@@ -28,18 +28,19 @@ const http = (function () {
     };
 }());
 
-const responseNotes = (path, id)=> {
+const responseNotes = (path, id) => {
 
-    const form = $("#"+id).serializeArray()
+    const form = $("#" + id).serializeArray()
     let data = {};
     $(form).each(function (index, obj) {
         data[obj.name] = obj.value;
     });
 
-    http.post("/api/"+path, data)
+    http.post("/api/" + path, data)
         .then((data) => {
 
             const response = data.json();
+
             $('.alert').html('');
             if (data.status === 400) {
                 response.then(resp => {
@@ -58,5 +59,16 @@ const responseNotes = (path, id)=> {
                 })
             }
         });
+}
+
+const responseNotFound = (path, response)=> {
+    response.then(resp => {
+        $('.alert').html(resp.message);
+        $('.alert').removeClass('d-none');
+        $('.alert').removeClass('alert-success');
+        $('.alert').addClass('alert-danger').show();
+        $('.alert').removeClass('d-none');
+        $("#"+path).hide();
+    });
 }
 

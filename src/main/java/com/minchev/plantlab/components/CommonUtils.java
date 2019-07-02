@@ -12,9 +12,9 @@ public class CommonUtils {
     public CommonUtils() {
     }
 
-    public ResponseEntity getApiResult (Boolean result, String[] message) {
+    public ResponseEntity getApiResult(Boolean result, String[] message) {
 
-        if (result.valueOf(true))
+        if (Boolean.valueOf(true))
             return ResponseEntity.status(HttpStatus.OK).body(message);
         else return ResponseEntity.status(400).body(SAVE_WRONG);
     }

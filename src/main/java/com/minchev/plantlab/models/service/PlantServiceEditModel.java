@@ -4,9 +4,13 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
+
 @Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class PlantServiceEditModel extends BaseServiceModel {
+
 
     private String barcode;
     private boolean active;

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SortPage {
-    private  String sort;
+    private String sort;
     private Sort sortBy;
 
     public SortPage() {
@@ -30,16 +30,16 @@ public class SortPage {
         this.sortBy = sortBy;
     }
 
-    private void setSortANDSortBy (){
+    private void setSortANDSortBy() {
 
-        if (this.sort.indexOf(',')==-1) this.sort+=",asc";
+        if (this.sort.indexOf(',') == -1) this.sort += ",asc";
 
-        String[]  sortType = this.sort.split(",");
-       if (sortType.length>0 && sortType[1].equals("asc")){
-           this.sortBy = new Sort(Sort.Direction.ASC, sortType[0]);
+        String[] sortType = this.sort.split(",");
+        if (sortType.length > 0 && sortType[1].equals("asc")) {
+            this.sortBy = new Sort(Sort.Direction.ASC, sortType[0]);
         }
-        if (sortType.length>0 && sortType[1].equals("desc")){
-            this.sortBy= new Sort(Sort.Direction.DESC, sortType[0]);
+        if (sortType.length > 0 && sortType[1].equals("desc")) {
+            this.sortBy = new Sort(Sort.Direction.DESC, sortType[0]);
         }
 
     }

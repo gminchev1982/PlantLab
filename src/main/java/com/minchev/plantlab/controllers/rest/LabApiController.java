@@ -2,7 +2,7 @@ package com.minchev.plantlab.controllers.rest;
 
 import com.minchev.plantlab.models.forms.LabEditForm;
 import com.minchev.plantlab.models.forms.LabSaveForm;
-import com.minchev.plantlab.servicies.LabService;
+import com.minchev.plantlab.servicies.api.LabService;
 import com.minchev.plantlab.validations.forms.LabSaveValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class LabApiController {
 
 
     public LabApiController(LabSaveValidator labSaveValidator, LabService labService) {
-        this.labSaveValidator= labSaveValidator;
+        this.labSaveValidator = labSaveValidator;
         this.labService = labService;
     }
 
@@ -34,7 +34,7 @@ public class LabApiController {
             return ResponseEntity.status(400).body(errors.getAllErrors());
         }
 
-        this.labService.save(labSaveForm,  principal);
+        this.labService.save(labSaveForm, principal);
 
         return ResponseEntity.status(HttpStatus.OK).body(BARCODE_DONE);
     }
@@ -52,5 +52,6 @@ public class LabApiController {
 
         return ResponseEntity.status(HttpStatus.OK).body(BARCODE_DONE);
     }
+
 
 }

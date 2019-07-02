@@ -11,54 +11,56 @@
 <main class="mt-3">
     <h1 class="text-center text-dark">Register</h1>
     <hr class="hr-2 bg-dark w-25">
-    <form class="form w-25 mx-auto" th:action="@{/users/register}" th:method="post" th:object="${model}"  enctype="multipart/form-data">
+    <form class="form w-25 mx-auto" enctype="multipart/form-data" th:action="@{/users/register}" th:method="post"
+          th:object="${model}">
 
 
         <div class="form-group">
-            <label for="name" class="font-weight-bold">Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Name..." name="name"th:value="*{name}">
+            <label class="font-weight-bold" for="name">Name</label>
+            <input class="form-control" id="name" name="name" placeholder="Name..." th:value="*{name}" type="text">
             <th:block th:if="${#fields.hasErrors('name')}">
                 <small class="error" th:errors="*{name}"></small>
             </th:block>
         </div>
 
         <div class="form-group">
-            <label for="username" class="font-weight-bold">Username</label>
-            <input type="text" class="form-control" id="username" placeholder="Username..." name="username"
-                   th:value="*{username}">
+            <label class="font-weight-bold" for="username">Username</label>
+            <input class="form-control" id="username" name="username" placeholder="Username..." th:value="*{username}"
+                   type="text">
             <th:block th:if="${#fields.hasErrors('username')}">
                 <small class="error" th:errors="*{username}"></small>
             </th:block>
         </div>
         <div class="form-group">
-            <label for="password" class="font-weight-bold">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password..." name="password"
-                   th:value="*{password}">
+            <label class="font-weight-bold" for="password">Password</label>
+            <input class="form-control" id="password" name="password" placeholder="Password..." th:value="*{password}"
+                   type="password">
             <th:block th:if="${#fields.hasErrors('password')}">
                 <small class="error" th:errors="*{password}"></small>
             </th:block>
         </div>
         <div class="form-group">
-            <label for="confirmPassword" class="font-weight-bold">Confirm Password</label>
-            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password..."
-                   name="confirmPassword" th:value="*{confirmPassword}">
-            <th:block th:if="${#fields.hasErrors('password')}">
-                <small class="error" th:errors="*{password}"></small>
+            <label class="font-weight-bold" for="confirmPassword">Confirm Password</label>
+            <input class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password..."
+                   th:value="*{confirmPassword}" type="password">
+            <th:block th:if="${#fields.hasErrors('confirmPassword')}">
+                <small class="error" th:errors="*{confirmPassword}"></small>
             </th:block>
         </div>
 
         <div class="form-group">
-            <label for="role" class="font-weight-bold">Role</label>
-            <select name="role" id="role" class="form-control">
+            <label class="font-weight-bold" for="role">Role</label>
+            <select class="form-control" id="role" name="role">
 
                 <option th:value="null">------------</option>
 
-                <option th:each="type : ${roles}" th:value="${type.id}" th:text="${type.authority}" th:selected="${model.role==type.id}"></option>
+                <option th:each="type : ${roles}" th:selected="${model.role==type.id}" th:text="${type.authority}"
+                        th:value="${type.id}"></option>
             </select>
 
             <div class="form-group">
-                <label for="add-product-image" class="font-weight-bold">Image</label>
-                <input type="file" class="form-control-file" id="add-product-image" name="images">
+                <label class="font-weight-bold" for="add-product-image">Image</label>
+                <input class="form-control-file" id="add-product-image" name="images" type="file">
             </div>
 
             <th:block th:if="${#fields.hasErrors('role')}">
@@ -68,7 +70,7 @@
 
         <hr class="hr-2 bg-dark">
         <div class="button-holder d-flex justify-content-center">
-            <button type="submit" class="btn btn-dark">Register</button>
+            <button class="btn btn-dark" type="submit">Register</button>
         </div>
     </form>
 </main>

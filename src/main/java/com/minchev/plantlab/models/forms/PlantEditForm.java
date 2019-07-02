@@ -1,11 +1,13 @@
 package com.minchev.plantlab.models.forms;
 
+
 public class PlantEditForm {
     private String _csrf;
     private String barcode;
     private String barcodeold;
     private String active;
     private String id;
+    private String dateAt;
 
 
     public String get_csrf() {
@@ -46,5 +48,13 @@ public class PlantEditForm {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getDateAt() {
+        return dateAt;
+    }
+
+    public void setDateAt(String dateAt) {
+        this.dateAt = dateAt;
     }
 }

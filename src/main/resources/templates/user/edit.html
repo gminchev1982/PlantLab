@@ -15,33 +15,34 @@
 
 
         <div class="form-group">
-            <label for="name" class="font-weight-bold">Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Name..." name="name"th:value="*{name}">
+            <label class="font-weight-bold" for="name">Name</label>
+            <input class="form-control" id="name" name="name" placeholder="Name..." th:value="*{name}" type="text">
             <th:block th:if="${#fields.hasErrors('name')}">
                 <small class="error" th:errors="*{name}"></small>
             </th:block>
         </div>
 
         <div class="form-group">
-            <label for="username" class="font-weight-bold">Username</label>
-            <input th:disabled="true" type="email" class="form-control" id="username" placeholder="Username..." name="username"
-                   th:value="*{username}">
+            <label class="font-weight-bold" for="username">Username</label>
+            <input class="form-control" id="username" name="username" placeholder="Username..." th:disabled="true"
+                   th:value="*{username}"
+                   type="email">
             <th:block th:if="${#fields.hasErrors('username')}">
                 <small class="error" th:errors="*{username}"></small>
             </th:block>
         </div>
         <div class="form-group">
-            <label for="password" class="font-weight-bold">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password..." name="password"
-                   th:value="*{password}">
+            <label class="font-weight-bold" for="password">Password</label>
+            <input class="form-control" id="password" name="password" placeholder="Password..." th:value="*{password}"
+                   type="password">
             <th:block th:if="${#fields.hasErrors('password')}">
                 <small class="error" th:errors="*{password}"></small>
             </th:block>
         </div>
         <div class="form-group">
-            <label for="confirmPassword" class="font-weight-bold">Confirm Password</label>
-            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password..."
-                   name="confirmPassword" th:value="*{confirmPassword}">
+            <label class="font-weight-bold" for="confirmPassword">Confirm Password</label>
+            <input class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password..."
+                   th:value="*{confirmPassword}" type="password">
             <th:block th:if="${#fields.hasErrors('password')}">
                 <small class="error" th:errors="*{password}"></small>
             </th:block>
@@ -49,30 +50,34 @@
 
 
         <th:block>
-        <div class="form-group">
-            <label for="role" class="font-weight-bold">Role</label>
-            <select name="role" id="role" class="form-control">
+            <div class="form-group">
+                <label class="font-weight-bold" for="role">Role</label>
+                <select class="form-control" id="role" name="role">
 
-                <option th:value="null">------------</option>
+                    <option th:value="null">------------</option>
 
-                <option th:each="type : ${roles}" th:value="${type.id}" th:text="${#strings.substringAfter(type.authority,'ROLE_')}" th:selected="${model.role==type.id}"></option>
-            </select>
+                    <option th:each="type : ${roles}" th:selected="${model.role==type.id}"
+                            th:text="${#strings.substringAfter(type.authority,'ROLE_')}"
+                            th:value="${type.id}"></option>
+                </select>
 
-            <th:block th:if="${#fields.hasErrors('role')}">
-                <small class="error" th:errors="*{role}"></small>
-            </th:block>
-        </div>
+                <th:block th:if="${#fields.hasErrors('role')}">
+                    <small class="error" th:errors="*{role}"></small>
+                </th:block>
+            </div>
         </th:block>
 
         <th:block sec:authorize="hasRole('role_user')">
-            <input type="hidden" name="role" th:value="${model.role}">
+            <input name="role" th:value="${model.role}" type="hidden">
         </th:block>
 
-
-
+        <div class="form-group">
+            <label class="font-weight-bold" for="add-product-image">Image</label>
+            <input class="form-control-file" id="add-product-image" name="images" type="file">
+        </div>
         <hr class="hr-2 bg-dark">
         <div class="button-holder d-flex justify-content-center">
-            <button type="submit" class="btn btn-dark">Edit</button>
+            <button class="btn btn-dark" type="submit">Edit</button>
         </div>
     </form>
 </main>

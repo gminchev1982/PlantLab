@@ -1,7 +1,7 @@
 package com.minchev.plantlab.controllers.web;
 
 import com.minchev.plantlab.interceptors.PageTitle;
-import com.minchev.plantlab.servicies.PlantService;
+import com.minchev.plantlab.servicies.api.PlantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -15,19 +15,20 @@ import org.springframework.web.servlet.ModelAndView;
 public class PlantController extends BaseController {
 
     private final PlantService plantService;
+
     @Autowired
     public PlantController(PlantService plantService) {
         this.plantService = plantService;
     }
 
     @GetMapping("/all")
-   // @PreAuthorize("hasRole('ROLE_ROOT')")
+    // @PreAuthorize("hasRole('ROLE_ROOT')")
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Plants")
     public ModelAndView homePlant(ModelAndView modelAndView,
                                   @RequestParam(value = "page", defaultValue = "1") int page,
                                   @RequestParam(value = "sort", defaultValue = "createdAt,desc") String sort,
-                                  @RequestParam(value = "search", defaultValue = "") String search){
+                                  @RequestParam(value = "search", defaultValue = "") String search) {
 
 
         modelAndView.addObject("plantAll", this.plantService.findAllPlants(page, sort, search));

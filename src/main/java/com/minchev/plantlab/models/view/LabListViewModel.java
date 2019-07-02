@@ -1,11 +1,10 @@
 package com.minchev.plantlab.models.view;
 
 import com.minchev.plantlab.config.mappings.IHaveCustomMappings;
-import com.minchev.plantlab.databases.entities.LabEntity;
-import com.minchev.plantlab.models.service.LabServiceModel;
+import com.minchev.plantlab.database.entities.LabEntity;
 import org.modelmapper.ModelMapper;
 
-public class LabListViewModel   implements IHaveCustomMappings {
+public class LabListViewModel implements IHaveCustomMappings {
 
     private String id;
     private String plantId;

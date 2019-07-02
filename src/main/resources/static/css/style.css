@@ -2,7 +2,7 @@
     background: transparent;
     border: none;
     font-weight: bold;
-    color: #DEB408!important;
+    color: #DEB408 !important;
 }
 
 .logout-button:hover {
@@ -24,22 +24,22 @@
 
 
 .bgr-navbar {
-    background: #262626!important;
+    background: #262626 !important;
 }
 
 footer {
     background-color: #171717;
-    color:#8c8989;
-    font-size:13px;
+    color: #8c8989;
+    font-size: 13px;
 }
 
 
 .btn-primary {
-    background:#5586BC;
+    background: #5586BC;
 }
 
 a {
-    color:#5586BC;
+    color: #5586BC;
 }
 
 a.active {
@@ -65,6 +65,7 @@ a.active {
 .color-yellow {
     color: #DEB408;
 }
+
 .color-blue {
-    color:#5586BC;
+    color: #5586BC;
 }

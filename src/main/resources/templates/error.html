@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="~{fragments/head}"></th:block>
 </head>
@@ -12,7 +12,7 @@
     <h1 class="text-center text-dark">Something Went Wrong</h1>
     <hr class="hr-2 bg-dark ">
     <div class="text-center">
-        <h3 th:text="${message}" style="color: red;"></h3>
+        <h3 style="color: red;" th:text="${message}"></h3>
     </div>
 
 </main>
