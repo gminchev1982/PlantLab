@@ -1,6 +1,5 @@
 package com.minchev.plantlab.validations.services.impl;
 
-import com.minchev.plantlab.models.service.ProductServiceEditModel;
 import com.minchev.plantlab.models.service.ProductServiceModel;
 import com.minchev.plantlab.validations.services.api.ProductValidationService;
 import org.springframework.stereotype.Component;
@@ -14,8 +13,4 @@ public class ProductValidationServiceImpl implements ProductValidationService {
         return product != null;
     }
 
-    @Override
-    public boolean isValidProductServiceEditModel(ProductServiceEditModel product) {
-        return product != null;
-    }
 }

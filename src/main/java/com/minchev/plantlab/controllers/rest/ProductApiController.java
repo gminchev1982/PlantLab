@@ -3,7 +3,6 @@ package com.minchev.plantlab.controllers.rest;
 import com.minchev.plantlab.errors.ProductNotFoundException;
 import com.minchev.plantlab.models.forms.ProductEditForm;
 import com.minchev.plantlab.models.forms.ProductSaveForm;
-import com.minchev.plantlab.models.service.ProductServiceEditModel;
 import com.minchev.plantlab.models.service.ProductServiceModel;
 import com.minchev.plantlab.servicies.api.ProductService;
 import com.minchev.plantlab.validations.forms.ProductEditValidator;
@@ -54,7 +53,7 @@ public class ProductApiController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getProduct(@PathVariable String id) throws ProductNotFoundException {
-        return ResponseEntity.status(HttpStatus.OK).body(this.modelMapper.map(this.productService.findById(id), ProductServiceEditModel.class));
+        return ResponseEntity.status(HttpStatus.OK).body(this.modelMapper.map(this.productService.findById(id), ProductServiceModel.class));
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)

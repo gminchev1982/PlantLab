@@ -46,7 +46,8 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/register")
-   @PreAuthorize("hasRole('ROLE_ROOT')")
+   // @PreAuthorize("hasRole('ROLE_ROOT')")
+    @PreAuthorize("isAnonymous()")
     public ModelAndView register(ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model) {
         modelAndView.addObject("model", model);
         modelAndView.addObject("roles", roleService.findAllRoles());
@@ -55,8 +56,8 @@ public class UserController extends BaseController {
 
 
     @PostMapping("/register")
-    @PreAuthorize("hasRole('ROLE_ROOT')")
-   // @PreAuthorize("isAnonymous()")
+   // @PreAuthorize("hasRole('ROLE_ROOT')")
+     @PreAuthorize("isAnonymous()")
     public ModelAndView registerConfirm(ModelAndView modelAndView, @ModelAttribute(name = "model") UserRegisterForm model, BindingResult bindingResult) throws IOException {
         this.userRegisterValidator.validate(model, bindingResult);
 

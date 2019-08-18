@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.awt.print.Pageable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -35,7 +36,6 @@ public class PlantServiceImpl implements PlantService {
     @Autowired
     public PlantServiceImpl(PlantRepository plantRepository,
                             PlantValidationService plantValidationService,
-
                             PageIndex pageIndex,
                             SortPage sortPage,
                             ModelMapper modelMapper) {
@@ -56,36 +56,30 @@ public class PlantServiceImpl implements PlantService {
     public Boolean save(PlantServiceModel plantServiceModel) {
 
         if (plantValidationService.isValidPlantServiceModel(plantServiceModel)) {
-            try {
                 PlantEntity plant = this.modelMapper.map(plantServiceModel, PlantEntity.class);
-                this.plantRepository.saveAndFlush(plant);
+                this.plantRepository.save(plant);
                 return true;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
         } else return false;
     }
 
 
     @Override
-    public List<PlantListViewModel> findAllPlants(Integer page, String sort, String search) {
+    public List<PlantListViewModel> findAllPlants(PageRequest pageable){
 
-        this.pageIndex.setCurrentPage(page);
-        this.sortPage.setSort(sort);
 
-        try {
-            PageRequest pageable = PageRequest.of(this.pageIndex.getCurrentPage(), PageIndex.PAGE_LIMIT, this.sortPage.getSortBy());
             Page<PlantEntity> records = this.plantRepository.findAll(pageable);
-            this.setPagingNumber(records.getTotalPages());
-            return records.getContent()
-                    .stream()
-                    .map(u -> this.modelMapper.map(u, PlantListViewModel.class))
-                    .collect(Collectors.toList());
-        } catch (Exception e) {
-            return null;
-        }
+            if(records!=null && records.hasContent()) {
+                this.setPagingNumber(records.getTotalPages());
+                return records.getContent()
+                        .stream()
+                        .map(u -> this.modelMapper.map(u, PlantListViewModel.class))
+                        .collect(Collectors.toList());
+
+            }else {
+                return new ArrayList<PlantListViewModel>();
+            }
+
+
     }
 
     @Override
@@ -105,6 +99,13 @@ public class PlantServiceImpl implements PlantService {
                     .collect(Collectors.toList());
         }
         return pageNumbers;
+    }
+
+    @Override
+    public PageRequest createPageRequest(Integer page, String sort) {
+        this.pageIndex.setCurrentPage(page);
+        this.sortPage.setSort(sort);
+        return  PageRequest.of(this.pageIndex.getCurrentPage(), PageIndex.PAGE_LIMIT, this.sortPage.getSortBy());
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.minchev.plantlab.controllers.web;
 import com.minchev.plantlab.interceptors.PageTitle;
 import com.minchev.plantlab.servicies.api.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +26,8 @@ public class ProductController extends BaseController {
     public ModelAndView productPage(ModelAndView modelAndView,
                                     @RequestParam(value = "page", defaultValue = "1") int page,
                                     @RequestParam(value = "sort", defaultValue = "createdAt,desc") String sort) {
-
-        modelAndView.addObject("products", this.productService.findAllProduct(page, sort));
+        PageRequest pageable = productService.createPageRequest(page, sort);
+        modelAndView.addObject("products", this.productService.findAllProduct(pageable));
         modelAndView.addObject("pageNumbers", this.productService.getPagingNumber());
         modelAndView.addObject("page", page);
         modelAndView.addObject("sort", sort);

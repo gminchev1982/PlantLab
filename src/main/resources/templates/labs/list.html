@@ -84,17 +84,19 @@
 <script src="/js/http.js"></script>
 <script>
 
-    $(".product-new").on('click', (ev) => {
-        $("#form-product").trigger('reset');
-        $('.alert').addClass('d-none');
-        $('.open-edit-form ').addClass('d-none');
-        $('.open-new-form').removeClass('d-none');
+    $(".product-new").on('click', (ev) = > {
+        $("#form-product"
+    ).trigger('reset');
+    $('.alert').addClass('d-none');
+    $('.open-edit-form ').addClass('d-none');
+    $('.open-new-form').removeClass('d-none');
     })
-    $("#form-product").on('submit', (ev) => {
+    $("#form-product").on('submit', (ev) = > {
         ev.preventDefault();
-        responseNotes('labs/save', 'form-product');
-        return false;
-    });
+    responseNotes('labs/save', 'form-product');
+    return false;
+    })
+    ;
 
 </script>
 

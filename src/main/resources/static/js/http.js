@@ -1,5 +1,7 @@
 const http = (function () {
-    const send = (url, method, body) => {
+    const send = (url, method, body) =
+>
+    {
         let payload = {
             headers: {
                 "Content-Type": "application/json",
@@ -15,11 +17,20 @@ const http = (function () {
 
         console.log("payload", payload)
         return fetch(url, payload)
-            .then(response => response)
-            .catch(er => console.log("err", er));
-    };
-    const post = (url, body) => send(url, 'POST', body);
-    const get = (url) => send(url, 'GET', null);
+            .then(response = > response
+    )
+    .
+        catch(er = > console.log("err", er)
+    )
+        ;
+    }
+    ;
+    const post = (url, body) =
+>
+    send(url, 'POST', body);
+    const get = (url) =
+>
+    send(url, 'GET', null);
 
     return {
         send,
@@ -28,7 +39,9 @@ const http = (function () {
     };
 }());
 
-const responseNotes = (path, id) => {
+const responseNotes = (path, id) =
+>
+{
 
     const form = $("#" + id).serializeArray()
     let data = {};
@@ -37,38 +50,49 @@ const responseNotes = (path, id) => {
     });
 
     http.post("/api/" + path, data)
-        .then((data) => {
+        .then((data) = > {
 
-            const response = data.json();
+        const response = data.json();
 
-            $('.alert').html('');
-            if (data.status === 400) {
-                response.then(resp => {
+    $('.alert').html('');
+    if (data.status === 400) {
+        response.then(resp = > {
 
-                    resp.forEach((err) => $('.alert').append(`<div>${err.code}</div>`));
-                    $('.alert').removeClass('d-none');
-                    $('.alert').removeClass('alert-success');
-                    $('.alert').addClass('alert-danger').show();
-                });
-            } else {
-                response.then(resp => {
-                    $('.alert').html(resp);
-                    $('.alert').removeClass('d-none');
-                    $('.alert').removeClass('alert-danger');
-                    $('.alert').addClass('alert-success');
-                })
-            }
-        });
-}
-
-const responseNotFound = (path, response)=> {
-    response.then(resp => {
-        $('.alert').html(resp.message);
+            resp.forEach((err) = > $('.alert').append(`<div>${err.code}</div>`)
+    )
+        ;
         $('.alert').removeClass('d-none');
         $('.alert').removeClass('alert-success');
         $('.alert').addClass('alert-danger').show();
+    })
+        ;
+    } else {
+        response.then(resp = > {
+            $('.alert'
+    ).
+        html(resp);
         $('.alert').removeClass('d-none');
-        $("#"+path).hide();
-    });
+        $('.alert').removeClass('alert-danger');
+        $('.alert').addClass('alert-success');
+    })
+    }
+})
+    ;
+}
+
+const responseNotFound = (path, response) =
+>
+{
+    response.then(resp = > {
+        $('.alert'
+).
+    html(resp.message);
+    $('.alert').removeClass('d-none');
+    $('.alert').removeClass('alert-success');
+    $('.alert').addClass('alert-danger').show();
+    $('.alert').removeClass('d-none');
+    $("#" + path).hide();
+})
+    ;
 }
 

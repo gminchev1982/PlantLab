@@ -31,7 +31,7 @@ public class SortPage {
     }
 
     private void setSortANDSortBy() {
-
+        if (this.sort.isEmpty()) this.sort = "createdAt,desc";
         if (this.sort.indexOf(',') == -1) this.sort += ",asc";
 
         String[] sortType = this.sort.split(",");

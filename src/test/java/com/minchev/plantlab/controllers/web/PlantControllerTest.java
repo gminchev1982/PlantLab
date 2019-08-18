@@ -59,7 +59,7 @@ public class PlantControllerTest {
         plants.clear();
         ModelAndView modelAndView = new ModelAndView();
         try {
-            ModelAndView result = controller.homePlant(modelAndView, 0, "createdAt", "");
+            ModelAndView result = controller.homePlant(modelAndView, 0, "createdAt");
             result.addObject("plants", plants);
             List<PlantListViewModel> viewModels = (List<PlantListViewModel>) result.getModel().get("plants");
             assertTrue(viewModels.isEmpty());
@@ -75,7 +75,7 @@ public class PlantControllerTest {
         plants.addAll(List.of(new PlantEntity()));
         ModelAndView modelAndView = new ModelAndView();
         try {
-            ModelAndView result = controller.homePlant(modelAndView, 0, "createdAt", "");
+            ModelAndView result = controller.homePlant(modelAndView, 0, "createdAt");
             result.addObject("plants", plants);
             List<PlantListViewModel> viewModels = (List<PlantListViewModel>) result.getModel().get("plants");
             assertEquals(plants.size(), viewModels.size());

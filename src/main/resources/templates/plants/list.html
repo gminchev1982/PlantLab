@@ -47,7 +47,7 @@
                     class="fas fa-angle-up" style="font-size: 1.4rem;"></i></a><a
                     th:class="${#strings.equals(sort, 'barcode,asc')? 'active':''}"
                     th:href="@{/plants/all(sort='barcode,asc')}"><i class="fas fa-angle-down"
-                                                                                       style="font-size: 1.4rem;"></i></a>
+                                                                    style="font-size: 1.4rem;"></i></a>
             </th>
             <th class="col-md-1 text-center">&nbsp;-</th>
         </tr>
@@ -112,7 +112,8 @@
 
                         <div class="form-group">
                             <label class="font-weight-bold" for="barcode">Barcode</label>
-                            <input class="form-control" id="barcode" maxlength="20" name="barcode" placeholder="barcode..."
+                            <input class="form-control" id="barcode" maxlength="20" name="barcode"
+                                   placeholder="barcode..."
                                    required type="text">
                         </div>
 
@@ -155,7 +156,8 @@
 
                         <div class="form-group">
                             <label class="font-weight-bold" for="barcode">Barcode</label>
-                            <input class="form-control" id="barcode" maxlength="20" name="barcode" placeholder="barcode..."
+                            <input class="form-control" id="barcode" maxlength="20" name="barcode"
+                                   placeholder="barcode..."
                                    required type="text">
                         </div>
 
@@ -191,53 +193,63 @@
     <script>
 
 
-        $(".plant-new").on('click', (ev) => {
+        $(".plant-new").on('click', (ev) = > {
 
-            $("#form-plant").trigger('reset');
-            $('.alert').addClass('d-none');
+            $("#form-plant"
+        ).trigger('reset');
+        $('.alert').addClass('d-none');
 
         })
 
-        $(".fa-user-edit").on('click', (ev) => {
+        $(".fa-user-edit").on('click', (ev) = > {
 
             let id = $(ev.target).attr("pl-id");
-           //id =  223222;
-            $('#myModalEdit').modal('show');
-            $("#form-plant-edit").show();
-            http.get("/api/plants/" + id).then((data) => {
-                const response = data.json();
-                console.log(response);
-                if (data.status === 200) {
-                    response.then(resp => {
-                        $("input[name=barcodeold]").val(resp.barcode);
-                        $("input[name=barcode]").val(resp.barcode);
-                        $("input[name=id]").val(resp.id);
-                        $("select[name=active]").val(resp.active);
-                    });
-                } else {
-                    responseNotFound("#form-plant-edit", response);
-                }
+        //id =  223222;
+        $('#myModalEdit').modal('show');
+        $("#form-plant-edit").show();
+        http.get("/api/plants/" + id).then((data) = > {
+            const response = data.json();
+        console.log(response);
+        if (data.status === 200) {
+            response.then(resp = > {
+                $("input[name=barcodeold]"
+        ).
+            val(resp.barcode);
+            $("input[name=barcode]").val(resp.barcode);
+            $("input[name=id]").val(resp.id);
+            $("select[name=active]").val(resp.active);
+        })
+            ;
+        } else {
+            responseNotFound("#form-plant-edit", response);
+        }
 
-            });
+        })
+        ;
         })
 
-        $("#form-plant").on('submit', (ev) => {
+        $("#form-plant").on('submit', (ev) = > {
             ev.preventDefault();
-            responseNotes('plants/save', 'form-plant');
-            return false;
-        });
+        responseNotes('plants/save', 'form-plant');
+        return false;
+        })
+        ;
 
-        $("#form-plant-edit").on('submit', (ev) => {
-            responseNotes('plants/edit', "form-plant-edit");
-            ev.preventDefault();
-            return false;
-        });
+        $("#form-plant-edit").on('submit', (ev) = > {
+            responseNotes('plants/edit', "form-plant-edit"
+        )
+        ;
+        ev.preventDefault();
+        return false;
+        })
+        ;
 
 
-        $(".close-plant").on('click', (ev) => {
-                window.location.reload();
-            }
-        );
+        $(".close-plant").on('click', (ev) = > {
+            window.location.reload();
+        }
+        )
+        ;
 
 
     </script>

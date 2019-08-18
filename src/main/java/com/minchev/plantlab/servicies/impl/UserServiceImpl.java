@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
             userImage(userServiceModel);
             userServiceModel.setId(user.getId());
 
-            this.userRepository.saveAndFlush(this.modelMapper.map(userServiceModel, UserEntity.class));
+            this.userRepository.save(this.modelMapper.map(userServiceModel, UserEntity.class));
             return true;
         } else return false;
     }

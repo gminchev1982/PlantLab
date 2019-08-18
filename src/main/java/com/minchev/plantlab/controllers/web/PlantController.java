@@ -3,12 +3,15 @@ package com.minchev.plantlab.controllers.web;
 import com.minchev.plantlab.interceptors.PageTitle;
 import com.minchev.plantlab.servicies.api.PlantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.awt.print.Pageable;
 
 @Controller
 @RequestMapping("/plants")
@@ -22,17 +25,16 @@ public class PlantController extends BaseController {
     }
 
     @GetMapping("/all")
-    // @PreAuthorize("hasRole('ROLE_ROOT')")
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Plants")
     public ModelAndView homePlant(ModelAndView modelAndView,
                                   @RequestParam(value = "page", defaultValue = "1") int page,
-                                  @RequestParam(value = "sort", defaultValue = "createdAt,desc") String sort,
-                                  @RequestParam(value = "search", defaultValue = "") String search) {
+                                  @RequestParam(value = "sort", defaultValue = "createdAt,desc") String sort
+                                 ) {
 
-
-        modelAndView.addObject("plantAll", this.plantService.findAllPlants(page, sort, search));
-        modelAndView.addObject("pageNumbers", this.plantService.getPagingNumber());
+        PageRequest pageable = plantService.createPageRequest(page, sort);
+        modelAndView.addObject("plantAll", plantService.findAllPlants(pageable));
+        modelAndView.addObject("pageNumbers", plantService.getPagingNumber());
         modelAndView.addObject("page", page);
         modelAndView.addObject("sort", sort);
 

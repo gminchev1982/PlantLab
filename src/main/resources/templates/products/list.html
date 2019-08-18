@@ -31,7 +31,7 @@
                     class="fas fa-angle-up" style="font-size: 1.4rem;"></i></a><a
                     th:class="${#strings.equals(sort, 'name,asc')? 'active':''}"
                     th:href="@{/products(sort='name,asc')}"><i class="fas fa-angle-down"
-                                                                                    style="font-size: 1.4rem;"></i></a>
+                                                               style="font-size: 1.4rem;"></i></a>
             </th>
             <th class="col-md-1 text-center">&nbsp;-</th>
         </tr>
@@ -56,8 +56,8 @@
                     <ul class="pagination">
                         <li th:class="(${pageNumber==page} ? 'page-item active':'page-item')"
                             th:each="pageNumber : ${pageNumbers}"><a class="page-link"
-                                                                                                 th:href="@{/products(page=${pageNumber},sort=${sort})}"
-                                                                                                 th:text=${pageNumber}></a>
+                                                                     th:href="@{/products(page=${pageNumber},sort=${sort})}"
+                                                                     th:text=${pageNumber}></a>
                         </li>
                     </ul>
                 </nav>
@@ -85,61 +85,68 @@
     <script src="/js/http.js"></script>
     <script>
 
-        $(".product-new").on('click', (ev) => {
-            $("#form-product").trigger('reset');
-            $('.alert').addClass('d-none');
-            $('.open-edit-form ').addClass('d-none');
-            $('.open-new-form').removeClass('d-none');
+        $(".product-new").on('click', (ev) = > {
+            $("#form-product"
+        ).trigger('reset');
+        $('.alert').addClass('d-none');
+        $('.open-edit-form ').addClass('d-none');
+        $('.open-new-form').removeClass('d-none');
         })
 
 
-        $(".fa-user-edit").on('click', (ev) => {
+        $(".fa-user-edit").on('click', (ev) = > {
             const id = $(ev.target).attr("pr-id");
-            $('.open-edit-form').removeClass('d-none');
-            $('.open-new-form').addClass('d-none');
-            $('#myModal').modal('show');
-            $("#form-product-edit").show();
-            http.get("/api/products/" + id).then((data) => {
-                const response = data.json();
+        $('.open-edit-form').removeClass('d-none');
+        $('.open-new-form').addClass('d-none');
+        $('#myModal').modal('show');
+        $("#form-product-edit").show();
+        http.get("/api/products/" + id).then((data) = > {
+            const response = data.json();
 
 
-                if (data.status === 200) {
-                    response.then(resp => {
+        if (data.status === 200) {
+            response.then(resp = > {
 
-                        console.log("resp", resp);
+                console.log("resp", resp);
 
-                        $("input[name=nameold]").val(resp.name);
-                        $("input[name=name]").val(resp.name);
-                        $("input[name=id]").val(resp.id);
-                        $("select[name=active]").val(resp.active);
-                    });
-                }else {
-                    responseNotFound("#form-product-edit", response);
+            $("input[name=nameold]").val(resp.name);
+            $("input[name=name]").val(resp.name);
+            $("input[name=id]").val(resp.id);
+            $("select[name=active]").val(resp.active);
+        })
+            ;
+        } else {
+            responseNotFound("#form-product-edit", response);
 
-                }
+        }
 
-            });
+        })
+        ;
         })
 
 
-        $("#form-product").on('submit', (ev) => {
+        $("#form-product").on('submit', (ev) = > {
             ev.preventDefault();
-            responseNotes('products/save', 'form-product');
-            return false;
-        });
+        responseNotes('products/save', 'form-product');
+        return false;
+        })
+        ;
 
 
-        $("#form-product-edit").on('submit', (ev) => {
+        $("#form-product-edit").on('submit', (ev) = > {
             ev.preventDefault();
-            responseNotes('products/edit', 'form-product-edit');
-            return false;
-        });
+        responseNotes('products/edit', 'form-product-edit');
+        return false;
+        })
+        ;
 
-        $(".close-plant").on('click', (ev) => {
-                $("input[name=name]").val();
-                window.location.reload();
-            }
-        );
+        $(".close-plant").on('click', (ev) = > {
+            $("input[name=name]"
+        ).val();
+        window.location.reload();
+        }
+        )
+        ;
 
     </script>
 </main>
